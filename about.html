@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us — Boomstrick</title>
+<link rel="stylesheet" href="style.css">
+<style>
+/* Mission section */
+.mission {
+  background: var(--green-900); color: white;
+  padding: 100px var(--px);
+}
+.mission .section-label { color: var(--green-300); }
+.mission-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: center; margin-top: 56px;
+}
+.mission h2 { font-family: var(--font-display); font-size: clamp(2rem,4vw,3rem); font-weight: 800; letter-spacing: -.025em; margin-bottom: 22px; }
+.mission p  { color: rgba(255,255,255,.6); line-height: 1.75; font-size: 1.05rem; margin-bottom: 16px; }
+.globe-box {
+  background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1);
+  border-radius: var(--radius-lg); aspect-ratio: 1;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.globe-grid {
+  position: absolute; inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(42,171,82,.15) 0, rgba(42,171,82,.15) 1px, transparent 1px, transparent 56px),
+    repeating-linear-gradient(90deg, rgba(42,171,82,.15) 0, rgba(42,171,82,.15) 1px, transparent 1px, transparent 56px);
+}
+.globe-emoji { font-size: 6rem; animation: spin 25s linear infinite; }
+.globe-dot {
+  position: absolute; width: 10px; height: 10px; border-radius: 50%;
+  background: var(--green-300); box-shadow: 0 0 12px var(--green-400);
+  animation: blip 2s ease-in-out infinite;
+}
+
+/* Values */
+.values { background: var(--gray-50); }
+.values-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 20px; margin-top: 56px;
+}
+.value-card {
+  background: white; border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg); padding: 32px;
+  transition: all .22s;
+}
+.value-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.value-icon { font-size: 2rem; margin-bottom: 16px; }
+.value-card h3 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+.value-card p  { font-size: .9rem; color: var(--gray-500); line-height: 1.65; }
+
+/* Team */
+.team-grid {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 20px; margin-top: 56px;
+}
+.team-card {
+  background: white; border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg); overflow: hidden;
+  text-align: center; transition: all .22s;
+}
+.team-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.team-avatar {
+  width: 100%; aspect-ratio: 1;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3rem;
+}
+.team-body { padding: 20px 16px; }
+.team-body h4 { font-family: var(--font-display); font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
+.team-body .role { font-size: .82rem; color: var(--green-500); font-weight: 600; margin-bottom: 8px; }
+.team-body p { font-size: .82rem; color: var(--gray-500); line-height: 1.5; }
+
+/* Timeline */
+.timeline { margin-top: 56px; position: relative; padding-left: 32px; }
+.timeline::before {
+  content: ''; position: absolute; left: 8px; top: 0; bottom: 0;
+  width: 2px; background: var(--gray-200);
+}
+.tl-item { position: relative; margin-bottom: 40px; }
+.tl-item::before {
+  content: ''; position: absolute; left: -28px; top: 6px;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--green-500); border: 3px solid white;
+  box-shadow: 0 0 0 2px var(--green-300);
+}
+.tl-year { font-family: var(--font-display); font-size: .8rem; font-weight: 700; color: var(--green-500); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 4px; }
+.tl-item h4 { font-weight: 700; font-size: 1rem; margin-bottom: 6px; }
+.tl-item p  { font-size: .9rem; color: var(--gray-500); line-height: 1.6; }
+
+/* Stats dark */
+.about-stats { background: var(--gray-900); color: white; padding: 80px var(--px); }
+.about-stats-grid {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 0;
+  border: 1px solid rgba(255,255,255,.1); border-radius: var(--radius-lg); overflow: hidden;
+  margin-top: 48px;
+}
+.a-stat {
+  padding: 40px 28px; text-align: center;
+  border-right: 1px solid rgba(255,255,255,.1);
+}
+.a-stat:last-child { border-right: none; }
+.a-stat .num { font-family: var(--font-display); font-size: 2.8rem; font-weight: 800; color: var(--green-300); letter-spacing: -.03em; }
+.a-stat .lbl { font-size: .85rem; color: rgba(255,255,255,.5); margin-top: 6px; }
+
+@media (max-width: 960px) {
+  .mission-grid { grid-template-columns: 1fr; }
+  .globe-box { display: none; }
+  .values-grid { grid-template-columns: 1fr 1fr; }
+  .team-grid { grid-template-columns: 1fr 1fr; }
+  .about-stats-grid { grid-template-columns: 1fr 1fr; }
+  .a-stat:nth-child(2) { border-right: none; }
+  .a-stat:nth-child(3) { border-top: 1px solid rgba(255,255,255,.1); }
+}
+@media (max-width: 600px) {
+  .values-grid { grid-template-columns: 1fr; }
+  .team-grid   { grid-template-columns: 1fr 1fr; }
+  .about-stats-grid { grid-template-columns: 1fr; }
+  .a-stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,.1); }
+}
+</style>
+</head>
+<body>
+
+<!-- ── PAGE HERO ── -->
+<div class="page-hero">
+  <div class="page-hero-inner fade-in">
+    <div class="section-label">About Us</div>
+    <h1 class="page-title">Built for builders,<br>powered by purpose.</h1>
+    <p class="page-sub">Boomstrick was founded on a simple belief: managing multiple apps shouldn't mean managing multiple headaches. We built one platform to rule them all — and we're just getting started.</p>
+  </div>
+</div>
+
+<!-- ── MISSION ── -->
+<section class="mission">
+  <div class="section-label">Our Mission</div>
+  <div class="mission-grid">
+    <div>
+      <h2>Simplify the complexity behind every great product.</h2>
+      <p>The best teams in the world shouldn't spend their energy stitching together disconnected tools. They should spend it building things people love.</p>
+      <p>Boomstrick started as a side project in 2019, born out of frustration with fragmented app stacks. Today it's the operating system for over 12 million users across 180 countries — and we still believe that unified is always better.</p>
+      <p>We're a remote-first company, 340 strong, with offices in San Francisco, London, and Singapore. Our north star hasn't changed: one platform, infinite possibility.</p>
+    </div>
+    <div class="globe-box fade-in">
+      <div class="globe-grid"></div>
+      <div class="globe-emoji">🌐</div>
+      <div class="globe-dot" style="top:22%;left:28%;animation-delay:0s"></div>
+      <div class="globe-dot" style="top:38%;left:66%;animation-delay:.5s"></div>
+      <div class="globe-dot" style="top:60%;left:42%;animation-delay:1s"></div>
+      <div class="globe-dot" style="top:30%;left:76%;animation-delay:1.5s"></div>
+      <div class="globe-dot" style="top:70%;left:18%;animation-delay:2s"></div>
+      <div class="globe-dot" style="top:52%;left:82%;animation-delay:2.5s"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── VALUES ── -->
+<section class="section values">
+  <div class="fade-in">
+    <div class="section-label">What We Believe</div>
+    <h2 class="section-title">Our values</h2>
+    <p class="section-sub">Six principles that guide every decision we make — from product to people.</p>
+  </div>
+  <div class="values-grid">
+    <div class="value-card fade-in">
+      <div class="value-icon">🧩</div>
+      <h3>Unity Over Silos</h3>
+      <p>Everything we build is designed to work better when combined. Integration isn't an afterthought — it's the foundation.</p>
+    </div>
+    <div class="value-card fade-in">
+      <div class="value-icon">⚡</div>
+      <h3>Speed Is a Feature</h3>
+      <p>We obsess over performance. Every millisecond matters when you're the platform others depend on.</p>
+    </div>
+    <div class="value-card fade-in">
+      <div class="value-icon">🔐</div>
+      <h3>Security by Default</h3>
+      <p>Privacy and security aren't features you unlock — they're baked into every layer of Boomstrick from day one.</p>
+    </div>
+    <div class="value-card fade-in">
+      <div class="value-icon">🌱</div>
+      <h3>Build Sustainably</h3>
+      <p>We're committed to net-zero by 2028. Our infrastructure runs on 100% renewable energy today.</p>
+    </div>
+    <div class="value-card fade-in">
+      <div class="value-icon">🤝</div>
+      <h3>Radical Transparency</h3>
+      <p>We share what we know — with our users, our team, and the public. Openness builds trust.</p>
+    </div>
+    <div class="value-card fade-in">
+      <div class="value-icon">🚀</div>
+      <h3>Builder Mindset</h3>
+      <p>We're builders first. Every product decision starts with a question: would this make a builder's life better?</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── TEAM ── -->
+<section class="section" style="background:white">
+  <div class="fade-in">
+    <div class="section-label">Leadership</div>
+    <h2 class="section-title">The team behind Boomstrick</h2>
+    <p class="section-sub">Operators, engineers, and designers who've shipped at scale — and believe the best is yet to come.</p>
+  </div>
+  <div class="team-grid">
+    <div class="team-card fade-in">
+      <div class="team-avatar" style="background:linear-gradient(135deg,#0f2d18,#22843f)">👨‍💼</div>
+      <div class="team-body">
+        <h4>James Laurent</h4>
+        <div class="role">CEO & Co-founder</div>
+        <p>Former CTO at CloudNine. Built platforms used by 50M+ users before Boomstrick.</p>
+      </div>
+    </div>
+    <div class="team-card fade-in">
+      <div class="team-avatar" style="background:linear-gradient(135deg,#1a4427,#3dcc6a)">👩‍💻</div>
+      <div class="team-body">
+        <h4>Anika Chen</h4>
+        <div class="role">CPO & Co-founder</div>
+        <p>Product leader with 12 years scaling B2B SaaS. Joined James from day zero.</p>
+      </div>
+    </div>
+    <div class="team-card fade-in">
+      <div class="team-avatar" style="background:linear-gradient(135deg,#22843f,#7de89f)">👨‍🔬</div>
+      <div class="team-body">
+        <h4>Marco Kim</h4>
+        <div class="role">CTO</div>
+        <p>Distributed systems expert. Designed the BoomFlow engine that handles 3B runs/month.</p>
+      </div>
+    </div>
+    <div class="team-card fade-in">
+      <div class="team-avatar" style="background:linear-gradient(135deg,#0a1f10,#1f6335)">👩‍⚖️</div>
+      <div class="team-body">
+        <h4>Sara Reyes</h4>
+        <div class="role">Chief Security Officer</div>
+        <p>Former CISO at a Fortune 100. Brought zero-trust to Boomstrick's core architecture.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TIMELINE ── -->
+<section class="section" style="background:var(--gray-50)">
+  <div class="fade-in">
+    <div class="section-label">Our Story</div>
+    <h2 class="section-title">How we got here</h2>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-top:20px">
+    <div class="timeline fade-in">
+      <div class="tl-item">
+        <div class="tl-year">2019</div>
+        <h4>Side project becomes a company</h4>
+        <p>James and Anika launch the first internal prototype of Boomstrick to solve their own multi-app chaos.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2020</div>
+        <h4>Seed round & first 1,000 users</h4>
+        <p>$4M seed from Sequoia. BoomChat launches publicly. The first 1,000 teams sign up in 48 hours.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2021</div>
+        <h4>Series A & BoomSpace launch</h4>
+        <p>$28M Series A. BoomSpace brings collaborative docs and projects into the platform.</p>
+      </div>
+    </div>
+    <div class="timeline fade-in">
+      <div class="tl-item">
+        <div class="tl-year">2022</div>
+        <h4>BoomShop & BoomGuard ship</h4>
+        <p>Commerce and enterprise security join the platform. 500K users across 80 countries.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2024</div>
+        <h4>Series B — $90M</h4>
+        <p>BoomFlow launches. The automation engine processes 1B runs in its first quarter.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2026</div>
+        <h4>Boomstrick 3.0 & Series C</h4>
+        <p>AI-native platform rebuild. $220M raised. 12M users. 180 countries. The journey continues.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STATS ── -->
+<section class="about-stats">
+  <div class="fade-in" style="max-width:600px">
+    <div class="section-label" style="color:var(--green-300)">By the Numbers</div>
+    <h2 class="section-title" style="color:white">Scale that speaks for itself</h2>
+  </div>
+  <div class="about-stats-grid fade-in">
+    <div class="a-stat"><div class="num">12M+</div><div class="lbl">Active users worldwide</div></div>
+    <div class="a-stat"><div class="num">180+</div><div class="lbl">Countries & territories</div></div>
+    <div class="a-stat"><div class="num">340</div><div class="lbl">Team members globally</div></div>
+    <div class="a-stat"><div class="num">$342M</div><div class="lbl">Total capital raised</div></div>
+  </div>
+</section>
+
+<script src="shared.js"></script>
+</body>
+</html>

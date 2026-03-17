@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boomstrick — One Platform. All Your Apps.</title>
+<link rel="stylesheet" href="style.css">
+<style>
+/* ── INDEX-SPECIFIC ─────────────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  padding-top: var(--nav-h);
+  display: flex; align-items: center;
+  background: linear-gradient(160deg, var(--white) 0%, var(--green-50) 55%, var(--green-100) 100%);
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 80% 40%, rgba(61,204,106,.12) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 20% 70%, rgba(34,132,63,.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(34,132,63,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34,132,63,.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+.hero-content {
+  position: relative; z-index: 1;
+  max-width: var(--max-w); margin: 0 auto;
+  padding: 80px var(--px);
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 64px; align-items: center;
+  width: 100%;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(42,171,82,.12); border: 1px solid rgba(42,171,82,.25);
+  border-radius: 100px; padding: 6px 14px;
+  font-size: .8rem; font-weight: 600; color: var(--green-600);
+  margin-bottom: 24px; letter-spacing: .04em; text-transform: uppercase;
+}
+.hero-badge::before {
+  content: ''; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--green-400); animation: pulse 2s infinite;
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 5.5vw, 4.4rem);
+  font-weight: 800; line-height: 1.06; letter-spacing: -.03em;
+  color: var(--gray-900); margin-bottom: 24px;
+}
+.hero-title .accent { color: var(--green-500); }
+.hero-sub {
+  font-size: 1.125rem; line-height: 1.65;
+  color: var(--gray-500); max-width: 480px; margin-bottom: 36px;
+}
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+/* Hero Visual */
+.hero-card-stack { position: relative; width: 100%; aspect-ratio: 1/.88; }
+.h-card {
+  position: absolute; background: white;
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);
+  border: 1px solid var(--gray-200); overflow: hidden;
+}
+.h-card:nth-child(1) { width: 88%; top: 0; left: 6%; padding: 24px; animation: float1 6s ease-in-out infinite; }
+.h-card:nth-child(2) { width: 58%; bottom: 10%; right: 0; padding: 20px; animation: float2 7s ease-in-out infinite .8s; border-top: 4px solid var(--green-400); transform: rotate(-1deg); }
+.h-card:nth-child(3) { width: 54%; bottom: 0; left: -10px; padding: 16px; animation: float3 8s ease-in-out infinite 1.4s; transform: rotate(1.5deg); }
+.h-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.h-card-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--green-500), var(--green-300));
+  display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+}
+.h-card-title { font-family: var(--font-display); font-weight: 700; font-size: .95rem; }
+.h-card-sub   { font-size: .75rem; color: var(--gray-500); }
+.h-chart { display: flex; gap: 6px; align-items: flex-end; height: 60px; }
+.h-bar {
+  flex: 1; border-radius: 4px 4px 0 0;
+  background: linear-gradient(180deg, var(--green-400), var(--green-600));
+  animation: barGrow .8s ease both;
+}
+.h-stat { font-family: var(--font-display); font-size: 1.8rem; font-weight: 800; color: var(--green-600); }
+.h-stat-label { font-size: .75rem; color: var(--gray-500); margin-top: 2px; }
+.h-apps { display: flex; gap: 8px; flex-wrap: wrap; }
+.h-app-pill {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--gray-100); border-radius: 100px;
+  padding: 5px 11px; font-size: .75rem; font-weight: 500;
+}
+
+/* Stats */
+.stats-bar { background: var(--green-900); padding: 40px var(--px); }
+.stats-inner { display: flex; justify-content: space-around; flex-wrap: wrap; }
+.stat-item {
+  text-align: center; padding: 16px 32px;
+  border-right: 1px solid rgba(255,255,255,.1);
+  flex: 1; min-width: 160px;
+}
+.stat-item:last-child { border-right: none; }
+.stat-num { font-family: var(--font-display); font-size: 2.5rem; font-weight: 800; color: var(--green-300); letter-spacing: -.03em; }
+.stat-text { font-size: .85rem; color: rgba(255,255,255,.55); margin-top: 4px; }
+
+/* App teasers */
+.apps-teaser { background: var(--gray-50); }
+.apps-strip {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 16px; margin-top: 56px;
+}
+.app-mini {
+  background: white; border: 1px solid var(--gray-200);
+  border-radius: var(--radius); padding: 24px;
+  transition: all .22s; text-decoration: none; color: inherit;
+  display: flex; flex-direction: column; gap: 10px;
+  position: relative; overflow: hidden;
+}
+.app-mini::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--green-500), var(--green-300));
+  transform: scaleX(0); transform-origin: left; transition: transform .25s;
+}
+.app-mini:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--green-200); }
+.app-mini:hover::before { transform: scaleX(1); }
+.app-mini-icon { font-size: 1.8rem; }
+.app-mini h3 { font-family: var(--font-display); font-weight: 700; font-size: 1rem; }
+.app-mini p  { font-size: .85rem; color: var(--gray-500); line-height: 1.5; }
+
+/* CTA section */
+.cta-section {
+  background: linear-gradient(135deg, var(--green-800) 0%, var(--green-600) 50%, var(--green-500) 100%);
+  padding: 100px var(--px); text-align: center; color: white;
+  position: relative; overflow: hidden;
+}
+.cta-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.cta-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+.cta-inner h2 { font-family: var(--font-display); font-size: clamp(2rem,4vw,3rem); font-weight: 800; letter-spacing: -.025em; margin-bottom: 18px; }
+.cta-inner p  { font-size: 1.1rem; color: rgba(255,255,255,.75); margin-bottom: 36px; line-height: 1.7; }
+.cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.btn-white { background: white; color: var(--green-700); }
+.btn-white:hover { background: var(--green-50); }
+.btn-outline-white { border: 1.5px solid rgba(255,255,255,.5); color: white; background: transparent; }
+.btn-outline-white:hover { border-color: white; background: rgba(255,255,255,.1); }
+
+@media (max-width: 960px) {
+  .hero-content { grid-template-columns: 1fr; }
+  .hero-visual  { display: none; }
+  .apps-strip   { grid-template-columns: repeat(2,1fr); }
+}
+@media (max-width: 600px) {
+  .apps-strip { grid-template-columns: 1fr; }
+  .stats-inner { flex-direction: column; }
+  .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,.1); }
+  .stat-item:last-child { border-bottom: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-content">
+    <div>
+      <div class="hero-badge">Unified App Platform</div>
+      <h1 class="hero-title">
+        One place for<br>
+        <span class="accent">every app</span><br>
+        you build.
+      </h1>
+      <p class="hero-sub">
+        Boomstrick brings all your applications under a single, powerful platform — so teams move faster, products grow smarter, and nothing falls through the cracks.
+      </p>
+      <div class="hero-actions">
+        <a href="apps.html" class="btn btn-primary btn-lg">Explore Apps →</a>
+        <a href="about.html" class="btn btn-outline btn-lg">Learn More</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-card-stack">
+        <div class="h-card">
+          <div class="h-card-header">
+            <div class="h-card-icon">📈</div>
+            <div>
+              <div class="h-card-title">BoomInsight</div>
+              <div class="h-card-sub">Real-time analytics</div>
+            </div>
+          </div>
+          <div class="h-chart">
+            <div class="h-bar" style="height:35%;animation-delay:.1s"></div>
+            <div class="h-bar" style="height:55%;animation-delay:.2s"></div>
+            <div class="h-bar" style="height:42%;animation-delay:.3s"></div>
+            <div class="h-bar" style="height:78%;animation-delay:.4s"></div>
+            <div class="h-bar" style="height:62%;animation-delay:.5s"></div>
+            <div class="h-bar" style="height:90%;animation-delay:.6s"></div>
+            <div class="h-bar" style="height:70%;animation-delay:.7s"></div>
+          </div>
+        </div>
+        <div class="h-card">
+          <div class="h-card-header">
+            <div class="h-card-icon" style="background:linear-gradient(135deg,#0f2d18,#22843f)">🚀</div>
+            <div>
+              <div class="h-card-title">BoomFlow</div>
+              <div class="h-card-sub">Automation engine</div>
+            </div>
+          </div>
+          <div class="h-stat">3.2B</div>
+          <div class="h-stat-label">Requests served this month</div>
+        </div>
+        <div class="h-card">
+          <div style="font-size:.75rem;font-weight:700;color:var(--gray-500);margin-bottom:10px;">CONNECTED APPS</div>
+          <div class="h-apps">
+            <div class="h-app-pill">💬 Chat</div>
+            <div class="h-app-pill">🗂️ Space</div>
+            <div class="h-app-pill">📊 Insight</div>
+            <div class="h-app-pill">🛒 Shop</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STATS ── -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item fade-in"><div class="stat-num">180+</div><div class="stat-text">Countries reached</div></div>
+    <div class="stat-item fade-in"><div class="stat-num">12M</div><div class="stat-text">Active users</div></div>
+    <div class="stat-item fade-in"><div class="stat-num">99.9%</div><div class="stat-text">Platform uptime</div></div>
+    <div class="stat-item fade-in"><div class="stat-num">6</div><div class="stat-text">Integrated apps</div></div>
+  </div>
+</div>
+
+<!-- ── APP TEASERS ── -->
+<section class="section apps-teaser">
+  <div class="fade-in">
+    <div class="section-label">Our Platform</div>
+    <h2 class="section-title">All your apps. One roof.</h2>
+    <p class="section-sub">From messaging to commerce, every Boomstrick product is built to work better together.</p>
+  </div>
+  <div class="apps-strip">
+    <a href="apps.html" class="app-mini fade-in">
+      <div class="app-mini-icon">💬</div>
+      <h3>BoomChat</h3>
+      <p>Real-time messaging, voice, and video — for every team.</p>
+    </a>
+    <a href="apps.html" class="app-mini fade-in">
+      <div class="app-mini-icon">🗂️</div>
+      <h3>BoomSpace</h3>
+      <p>Projects, docs, and tasks — always in sync.</p>
+    </a>
+    <a href="apps.html" class="app-mini fade-in">
+      <div class="app-mini-icon">📊</div>
+      <h3>BoomInsight</h3>
+      <p>Live dashboards across every app you run.</p>
+    </a>
+    <a href="apps.html" class="app-mini fade-in">
+      <div class="app-mini-icon">🛒</div>
+      <h3>BoomShop</h3>
+      <p>End-to-end commerce, fully integrated.</p>
+    </a>
+    <a href="apps.html" class="app-mini fade-in">
+      <div class="app-mini-icon">🔐</div>
+      <h3>BoomGuard</h3>
+      <p>Enterprise security and identity management.</p>
+    </a>
+    <a href="apps.html" class="app-mini fade-in">
+      <div class="app-mini-icon">⚡</div>
+      <h3>BoomFlow</h3>
+      <p>No-code automation between all your apps.</p>
+    </a>
+  </div>
+  <div style="text-align:center;margin-top:40px">
+    <a href="apps.html" class="btn btn-outline btn-lg fade-in">See All Apps →</a>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cta-section">
+  <div class="cta-inner fade-in">
+    <h2>Ready to unify your stack?</h2>
+    <p>Join 12 million users who manage every app through Boomstrick — faster, smarter, together.</p>
+    <div class="cta-actions">
+      <a href="#" class="btn btn-white btn-lg">Start for Free</a>
+      <a href="about.html" class="btn btn-outline-white btn-lg">Learn About Us</a>
+    </div>
+  </div>
+</section>
+
+<script src="shared.js"></script>
+</body>
+</html>

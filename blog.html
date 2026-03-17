@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Latest — Boomstrick</title>
+<link rel="stylesheet" href="style.css">
+<style>
+/* Category pills */
+.cat-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 40px; }
+.cat-pill {
+  padding: 7px 18px; border-radius: 100px;
+  font-size: .83rem; font-weight: 600;
+  border: 1.5px solid var(--gray-200);
+  background: white; color: var(--gray-700);
+  cursor: pointer; transition: all .15s;
+}
+.cat-pill:hover, .cat-pill.active {
+  background: var(--green-500); color: white; border-color: var(--green-500);
+}
+
+/* Featured post */
+.featured-post {
+  display: grid; grid-template-columns: 1.2fr 1fr;
+  gap: 0; border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg); overflow: hidden;
+  margin-top: 60px; text-decoration: none; color: inherit;
+  transition: box-shadow .22s, transform .22s;
+}
+.featured-post:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+.featured-img {
+  background: linear-gradient(135deg, var(--green-900) 0%, var(--green-600) 60%, var(--green-400) 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 5rem; min-height: 380px;
+}
+.featured-body { padding: 48px 44px; display: flex; flex-direction: column; justify-content: center; }
+.post-tag {
+  display: inline-block;
+  font-size: .72rem; font-weight: 700; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--green-500); margin-bottom: 16px;
+}
+.featured-body h2 {
+  font-family: var(--font-display); font-size: 1.8rem; font-weight: 800;
+  line-height: 1.2; margin-bottom: 14px; letter-spacing: -.02em;
+}
+.featured-body p { font-size: .975rem; color: var(--gray-500); line-height: 1.7; margin-bottom: 28px; }
+.post-meta {
+  display: flex; align-items: center; gap: 10px;
+  font-size: .82rem; color: var(--gray-500);
+  padding-top: 20px; border-top: 1px solid var(--gray-200);
+}
+.post-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--green-400), var(--green-700));
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: .72rem; font-weight: 700; flex-shrink: 0;
+}
+.read-link {
+  margin-left: auto; font-size: .85rem; font-weight: 600;
+  color: var(--green-500); text-decoration: none;
+  display: flex; align-items: center; gap: 4px; transition: gap .15s;
+}
+.read-link:hover { gap: 8px; }
+
+/* Post grid */
+.posts-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 24px; margin-top: 60px;
+}
+.post-card {
+  background: white; border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg); overflow: hidden;
+  text-decoration: none; color: inherit;
+  display: flex; flex-direction: column; transition: all .22s;
+}
+.post-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.post-img {
+  aspect-ratio: 16/9;
+  display: flex; align-items: center; justify-content: center; font-size: 2.8rem;
+}
+.post-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
+.post-body h3 { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; line-height: 1.35; margin-bottom: 10px; flex: 1; }
+.post-body p  { font-size: .875rem; color: var(--gray-500); line-height: 1.6; margin-bottom: 14px; }
+.post-body .post-meta { margin-top: auto; }
+
+/* Newsletter */
+.newsletter-strip {
+  background: var(--green-50); border: 1px solid var(--green-200);
+  border-radius: var(--radius-lg); padding: 48px;
+  display: flex; gap: 48px; align-items: center;
+  margin-top: 80px;
+}
+.nl-copy { flex: 1; }
+.nl-copy h3 { font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; margin-bottom: 10px; }
+.nl-copy p  { color: var(--gray-500); line-height: 1.6; }
+.nl-form { display: flex; gap: 10px; flex: 1; }
+.nl-input {
+  flex: 1; padding: 13px 16px;
+  border: 1.5px solid var(--gray-200); border-radius: 10px;
+  font-family: var(--font-body); font-size: .925rem; outline: none;
+  transition: border-color .15s;
+}
+.nl-input:focus { border-color: var(--green-400); }
+
+@media (max-width: 960px) {
+  .featured-post  { grid-template-columns: 1fr; }
+  .featured-img   { min-height: 240px; }
+  .posts-grid     { grid-template-columns: 1fr 1fr; }
+  .newsletter-strip { flex-direction: column; gap: 28px; }
+  .nl-form        { flex-direction: column; }
+}
+@media (max-width: 600px) {
+  .posts-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── PAGE HERO ── -->
+<div class="page-hero">
+  <div class="page-hero-inner fade-in">
+    <div class="section-label">The Latest from Boomstrick</div>
+    <h1 class="page-title">Ideas, stories,<br>and what's next.</h1>
+    <p class="page-sub">News, product thinking, founder notes, and deep dives from inside the Boomstrick platform.</p>
+  </div>
+</div>
+
+<!-- ── CONTENT ── -->
+<section class="section">
+
+  <!-- Category Filter -->
+  <div class="cat-bar fade-in">
+    <button class="cat-pill active">All</button>
+    <button class="cat-pill">Product</button>
+    <button class="cat-pill">Engineering</button>
+    <button class="cat-pill">Security</button>
+    <button class="cat-pill">Design</button>
+    <button class="cat-pill">Company</button>
+    <button class="cat-pill">Insights</button>
+  </div>
+
+  <!-- Featured Post -->
+  <a href="#" class="featured-post fade-in">
+    <div class="featured-img">🚀</div>
+    <div class="featured-body">
+      <span class="post-tag">Product Update</span>
+      <h2>Boomstrick 3.0: The Unified Platform Reimagined for the Age of AI</h2>
+      <p>We've rebuilt the core of Boomstrick from the ground up — smarter routing, near-zero latency sync, and AI-native integrations across every product. Here's everything that's new.</p>
+      <div class="post-meta">
+        <div class="post-avatar">JL</div>
+        <div>
+          <div style="font-weight:600;color:var(--gray-900)">James Laurent</div>
+          <div>CEO · March 12, 2026 · 8 min read</div>
+        </div>
+        <a href="#" class="read-link">Read →</a>
+      </div>
+    </div>
+  </a>
+
+  <!-- Post Grid -->
+  <div class="posts-grid">
+
+    <a href="#" class="post-card fade-in">
+      <div class="post-img" style="background:linear-gradient(135deg,#0f2d18,#22843f)">🔐</div>
+      <div class="post-body">
+        <span class="post-tag">Security</span>
+        <h3>How BoomGuard Is Redefining Zero-Trust for Multi-App Ecosystems</h3>
+        <p>A deep look into the architecture decisions behind our new identity layer — and why zero-trust is the only sane default.</p>
+        <div class="post-meta">
+          <div class="post-avatar">SR</div>
+          <div>Sara Reyes · Feb 28 · 6 min</div>
+          <a href="#" class="read-link" style="margin-left:auto">Read →</a>
+        </div>
+      </div>
+    </a>
+
+    <a href="#" class="post-card fade-in">
+      <div class="post-img" style="background:linear-gradient(135deg,#1a4427,#3dcc6a)">⚡</div>
+      <div class="post-body">
+        <span class="post-tag">Engineering</span>
+        <h3>Building BoomFlow: The Architecture Behind 3B Monthly Automation Runs</h3>
+        <p>How we designed a workflow engine that handles billions of triggers per month without a single point of failure.</p>
+        <div class="post-meta">
+          <div class="post-avatar">MK</div>
+          <div>Marco Kim · Feb 14 · 11 min</div>
+          <a href="#" class="read-link" style="margin-left:auto">Read →</a>
+        </div>
+      </div>
+    </a>
+
+    <a href="#" class="post-card fade-in">
+      <div class="post-img" style="background:linear-gradient(135deg,#22843f,#7de89f)">🎨</div>
+      <div class="post-body">
+        <span class="post-tag">Design</span>
+        <h3>Why We Rewrote Our Design System — and What We Learned</h3>
+        <p>Boomstrick's new Verdant design system started as a unification project and became a philosophy. The full story.</p>
+        <div class="post-meta">
+          <div class="post-avatar">AC</div>
+          <div>Anika Chen · Jan 30 · 7 min</div>
+          <a href="#" class="read-link" style="margin-left:auto">Read →</a>
+        </div>
+      </div>
+    </a>
+
+    <a href="#" class="post-card fade-in">
+      <div class="post-img" style="background:linear-gradient(135deg,#0a1f10,#1f6335)">🌍</div>
+      <div class="post-body">
+        <span class="post-tag">Company</span>
+        <h3>Boomstrick's Commitment to Net-Zero: A 2028 Roadmap</h3>
+        <p>Sustainability isn't a marketing checkbox for us. Here's our detailed plan, with honest accountability built in.</p>
+        <div class="post-meta">
+          <div class="post-avatar">LD</div>
+          <div>Layla Davis · Jan 18 · 5 min</div>
+          <a href="#" class="read-link" style="margin-left:auto">Read →</a>
+        </div>
+      </div>
+    </a>
+
+    <a href="#" class="post-card fade-in">
+      <div class="post-img" style="background:linear-gradient(135deg,#1a4427,#2aab52)">📊</div>
+      <div class="post-body">
+        <span class="post-tag">Insights</span>
+        <h3>The State of Unified Platforms: 2026 Report</h3>
+        <p>We surveyed 4,000 tech leaders on how they manage multi-product stacks. The results surprised us.</p>
+        <div class="post-meta">
+          <div class="post-avatar">RP</div>
+          <div>Research Team · Jan 5 · 12 min</div>
+          <a href="#" class="read-link" style="margin-left:auto">Read →</a>
+        </div>
+      </div>
+    </a>
+
+    <a href="#" class="post-card fade-in">
+      <div class="post-img" style="background:linear-gradient(135deg,#0f2d18,#3dcc6a)">🛒</div>
+      <div class="post-body">
+        <span class="post-tag">Product</span>
+        <h3>Introducing BoomShop 2.0: Commerce That Actually Scales</h3>
+        <p>From indie merchants to enterprise retailers — everything new in Boomstrick's commerce suite this quarter.</p>
+        <div class="post-meta">
+          <div class="post-avatar">TW</div>
+          <div>Tomas Wells · Dec 20 · 9 min</div>
+          <a href="#" class="read-link" style="margin-left:auto">Read →</a>
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <div style="text-align:center;margin-top:48px">
+    <a href="#" class="btn btn-outline btn-lg fade-in">Load More Stories →</a>
+  </div>
+
+  <!-- Newsletter -->
+  <div class="newsletter-strip fade-in">
+    <div class="nl-copy">
+      <h3>Stay in the loop</h3>
+      <p>Get Boomstrick updates, product drops, and founder notes delivered every week. No spam, unsubscribe anytime.</p>
+    </div>
+    <div class="nl-form">
+      <input class="nl-input" type="email" placeholder="you@example.com">
+      <button class="btn btn-primary btn-lg">Subscribe</button>
+    </div>
+  </div>
+
+</section>
+
+<script src="shared.js"></script>
+<script>
+  document.querySelectorAll('.cat-pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.cat-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Media Gallery — Boomstrick</title>
+<link rel="stylesheet" href="style.css">
+<style>
+/* Filter */
+.filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 40px; }
+.filter-btn {
+  padding: 7px 18px; border-radius: 100px;
+  font-size: .83rem; font-weight: 600;
+  border: 1.5px solid var(--gray-200); background: white; color: var(--gray-700);
+  cursor: pointer; transition: all .15s;
+}
+.filter-btn:hover, .filter-btn.active {
+  background: var(--green-500); color: white; border-color: var(--green-500);
+}
+
+/* Masonry-style grid */
+.gallery-main {
+  columns: 3; column-gap: 16px; margin-top: 56px;
+}
+.g-item {
+  break-inside: avoid; margin-bottom: 16px;
+  border-radius: var(--radius); overflow: hidden;
+  position: relative; cursor: pointer;
+  transition: transform .22s;
+}
+.g-item:hover { transform: scale(.98); }
+.g-item:hover .g-overlay { opacity: 1; }
+
+.g-bg {
+  width: 100%; display: block;
+  border-radius: var(--radius);
+}
+
+.g-bg.h1 { aspect-ratio: 16/9; }
+.g-bg.h2 { aspect-ratio: 4/5; }
+.g-bg.h3 { aspect-ratio: 1/1; }
+.g-bg.h4 { aspect-ratio: 16/10; }
+
+.g-inner {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3rem;
+  position: absolute; inset: 0;
+}
+
+.g-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(10,31,16,.82) 0%, transparent 55%);
+  opacity: 0; transition: opacity .22s;
+  display: flex; flex-direction: column; justify-content: flex-end; padding: 20px;
+}
+.g-overlay span { color: white; font-weight: 700; font-size: .95rem; }
+.g-overlay small { color: rgba(255,255,255,.65); font-size: .78rem; margin-top: 2px; }
+
+.g-tag {
+  position: absolute; top: 12px; left: 12px;
+  background: rgba(255,255,255,.15); backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.25);
+  color: white; font-size: .7rem; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 100px;
+}
+
+/* Lightbox */
+.lightbox {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(10,31,16,.92); backdrop-filter: blur(12px);
+  align-items: center; justify-content: center; padding: 40px;
+}
+.lightbox.open { display: flex; }
+.lb-content {
+  background: white; border-radius: var(--radius-lg); overflow: hidden;
+  max-width: 720px; width: 100%; position: relative;
+}
+.lb-close {
+  position: absolute; top: 16px; right: 16px; z-index: 1;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(0,0,0,.5); border: none; color: white;
+  font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.lb-img {
+  width: 100%; aspect-ratio: 16/9;
+  display: flex; align-items: center; justify-content: center; font-size: 5rem;
+}
+.lb-body { padding: 28px 32px; }
+.lb-body h3 { font-family: var(--font-display); font-size: 1.3rem; font-weight: 800; margin-bottom: 8px; }
+.lb-body p  { font-size: .9rem; color: var(--gray-500); line-height: 1.6; }
+.lb-meta { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+.lb-chip {
+  padding: 5px 12px; border-radius: 100px;
+  background: var(--gray-100); font-size: .78rem; font-weight: 600; color: var(--gray-700);
+}
+
+/* Press kit */
+.press-strip {
+  margin-top: 80px; background: var(--green-900);
+  border-radius: var(--radius-lg); padding: 48px;
+  display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center; color: white;
+}
+.press-strip h3 { font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; margin-bottom: 10px; }
+.press-strip p  { color: rgba(255,255,255,.6); line-height: 1.65; }
+.press-assets { display: flex; gap: 12px; flex-wrap: wrap; }
+.asset-btn {
+  display: flex; align-items: center; gap: 8px;
+  padding: 11px 20px; border-radius: 10px;
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15);
+  color: white; font-size: .875rem; font-weight: 600;
+  text-decoration: none; transition: all .18s;
+}
+.asset-btn:hover { background: rgba(42,171,82,.25); border-color: rgba(42,171,82,.4); }
+
+@media (max-width: 960px) {
+  .gallery-main { columns: 2; }
+  .press-strip { grid-template-columns: 1fr; }
+}
+@media (max-width: 540px) {
+  .gallery-main { columns: 1; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── PAGE HERO ── -->
+<div class="page-hero">
+  <div class="page-hero-inner fade-in">
+    <div class="section-label">Media Gallery</div>
+    <h1 class="page-title">Boomstrick<br>in the world.</h1>
+    <p class="page-sub">Product showcases, team moments, events, and the visual story of where we've been — and where we're going.</p>
+  </div>
+</div>
+
+<!-- ── GALLERY ── -->
+<section class="section">
+
+  <div class="filter-bar fade-in">
+    <button class="filter-btn active">All</button>
+    <button class="filter-btn">Events</button>
+    <button class="filter-btn">Product</button>
+    <button class="filter-btn">Team</button>
+    <button class="filter-btn">Offices</button>
+    <button class="filter-btn">Sustainability</button>
+  </div>
+
+  <div class="gallery-main">
+
+    <div class="g-item fade-in" onclick="openLightbox('BoomstrickConf 2026 Keynote','James Laurent takes the stage at our flagship developer conference in San Francisco — announcing Boomstrick 3.0 and the AI-native platform.','🎤','March 2026','Events')">
+      <div class="g-bg h1" style="background:linear-gradient(135deg,#0a1f10,#22843f)"></div>
+      <div class="g-inner">🎤</div>
+      <div class="g-tag">Events</div>
+      <div class="g-overlay"><span>BoomstrickConf 2026 Keynote</span><small>San Francisco · March 2026</small></div>
+    </div>
+
+    <div class="g-item fade-in" onclick="openLightbox('San Francisco HQ','Our Mission Control hub in SoMa — where 140 of our 340 global teammates work, collaborate, and ship.','🏢','Offices','Offices')">
+      <div class="g-bg h2" style="background:linear-gradient(135deg,#1a4427,#3dcc6a)"></div>
+      <div class="g-inner">🏢</div>
+      <div class="g-tag">Offices</div>
+      <div class="g-overlay"><span>SF HQ — Mission Control</span><small>San Francisco, California</small></div>
+    </div>
+
+    <div class="g-item fade-in" onclick="openLightbox('BoomFlow Launch Day','The engineering team celebrating BoomFlow going live — 1 billion automation runs in the first quarter.','⚡','Jan 2024','Product')">
+      <div class="g-bg h4" style="background:linear-gradient(135deg,#0f2d18,#2aab52)"></div>
+      <div class="g-inner">⚡</div>
+      <div class="g-tag">Product</div>
+      <div class="g-overlay"><span>BoomFlow Launch Day</span><small>January 2024</small></div>
+    </div>
+
+    <div class="g-item fade-in" onclick="openLightbox('Engineering Offsite — Yosemite','80 engineers, three days, zero Wi-Fi. The planning session that shaped our 2026 architecture.','💻','Sep 2025','Team')">
+      <div class="g-bg h3" style="background:linear-gradient(135deg,#22843f,#7de89f)"></div>
+      <div class="g-inner">💻</div>
+      <div class="g-tag">Team</div>
+      <div class="g-overlay"><span>Engineering Offsite — Yosemite</span><small>September 2025</small></div>
+    </div>
+
+    <div class="g-item fade-in" onclick="openLightbox('Sustainability Summit 2025','Boomstrick joins 40 global tech companies committing to net-zero infrastructure at our annual sustainability forum.','🌱','Nov 2025','Sustainability')">
+      <div class="g-bg h1" style="background:linear-gradient(135deg,#1f6335,#c5f7d5)"></div>
+      <div class="g-inner">🌱</div>
+      <div class="g-tag">Sustainability</div>
+      <div class="g-overlay"><span>Sustainability Summit 2025</span><small>November 2025</small></div>
+    </div>
+
+    <div class="g-item fade-in" onclick="openLightbox('London Office Opening','Boomstrick EMEA launches from our Shoreditch hub — 60 new teammates, one very good tea selection.','🇬🇧','Jun 2025','Offices')">
+      <div class="g-bg h2" style="background:linear-gradient(135deg,#0a1f10,#1a4427)"></div>
+      <div class="g-inner">🇬🇧</div>
+      <div class="g-tag">Offices</div>
+      <div class="g-overlay"><span>London Office Opening</span><small>Shoreditch · June 2025</small></div>
+    </div>
+
+    <div class="g-item fade-in" onclick="openLightbox('BoomChat 2.0 Reveal','Live demo of the all-new BoomChat interface — AI threads, spatial audio, and the new Channels experience.','💬','Feb 2026','Product')">
+      <div class="g-bg h4" style="background:linear-gradient(135deg,#22843f,#3dcc6a)"></div>
+      <div class="g-inner">💬</div>
+      <div class="g-tag">Product</div>
+      <div class="g-overlay"><span>BoomChat 2.0 Reveal</span><small>February 2026</small></div>
+    </div>
+
+    <div class="g-item fade-in" onclick="openLightbox('Global Team Week 2025','340 Boomstrick teammates, one week, four cities. Our largest in-person gathering yet.','🌍','Aug 2025','Team')">
+      <div class="g-bg h3" style="background:linear-gradient(135deg,#0f2d18,#22843f)"></div>
+      <div class="g-inner">🌍</div>
+      <div class="g-tag">Team</div>
+      <div class="g-overlay"><span>Global Team Week 2025</span><small>August 2025</small></div>
+    </div>
+
+    <div class="g-item fade-in" onclick="openLightbox('Series C Announcement','The founding team after closing our $220M Series C — fuel for the next chapter of Boomstrick.','🎉','Mar 2026','Company')">
+      <div class="g-bg h1" style="background:linear-gradient(135deg,#1a4427,#7de89f)"></div>
+      <div class="g-inner">🎉</div>
+      <div class="g-tag">Company</div>
+      <div class="g-overlay"><span>Series C — $220M Closed</span><small>March 2026</small></div>
+    </div>
+
+  </div>
+
+  <!-- Press Kit -->
+  <div class="press-strip fade-in">
+    <div>
+      <h3>Press Kit & Brand Assets</h3>
+      <p>Logos, screenshots, leadership headshots, and brand guidelines — everything you need to cover Boomstrick accurately and beautifully.</p>
+      <div class="press-assets" style="margin-top:20px">
+        <a href="#" class="asset-btn">📦 Full Press Kit</a>
+        <a href="#" class="asset-btn">🎨 Brand Guidelines</a>
+        <a href="#" class="asset-btn">🖼️ Logo Package</a>
+        <a href="#" class="asset-btn">📸 Leadership Photos</a>
+      </div>
+    </div>
+    <div style="text-align:center;flex-shrink:0">
+      <a href="newsroom.html" class="btn btn-primary btn-lg">Visit Newsroom →</a>
+    </div>
+  </div>
+
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lb-content">
+    <button class="lb-close" onclick="closeLightbox()">✕</button>
+    <div class="lb-img" id="lbImg" style="background:linear-gradient(135deg,#0a1f10,#22843f)"></div>
+    <div class="lb-body">
+      <h3 id="lbTitle">Title</h3>
+      <p  id="lbDesc">Description</p>
+      <div class="lb-meta" id="lbMeta"></div>
+    </div>
+  </div>
+</div>
+
+<script src="shared.js"></script>
+<script>
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  function openLightbox(title, desc, emoji, date, tag) {
+    document.getElementById('lbTitle').textContent = title;
+    document.getElementById('lbDesc').textContent = desc;
+    document.getElementById('lbImg').textContent = emoji;
+    document.getElementById('lbMeta').innerHTML =
+      `<span class="lb-chip">📅 ${date}</span><span class="lb-chip">🏷️ ${tag}</span>`;
+    document.getElementById('lightbox').classList.add('open');
+  }
+
+  function closeLightbox(e) {
+    if (!e || e.target === document.getElementById('lightbox') || e.target.classList.contains('lb-close')) {
+      document.getElementById('lightbox').classList.remove('open');
+    }
+  }
+</script>
+</body>
+</html>
