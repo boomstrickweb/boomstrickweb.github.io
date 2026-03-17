@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FRACT — Boomstrick</title>
+<link rel="stylesheet" href="style.css">
+<style>
+/* ── HERO ── */
+.fract-hero {
+  min-height: 100vh; padding-top: var(--nav-h);
+  display: flex; align-items: center;
+  background: linear-gradient(150deg, #f8faf9 0%, #edfff3 40%, #c5f7d5 100%);
+  position: relative; overflow: hidden;
+}
+.fract-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 30%, rgba(61,204,106,.15) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 35% at 10% 70%, rgba(34,132,63,.09) 0%, transparent 60%);
+  pointer-events: none;
+}
+.fract-hero::after {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(34,132,63,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34,132,63,.05) 1px, transparent 1px);
+  background-size: 48px 48px; pointer-events: none;
+}
+.hero-content {
+  position: relative; z-index: 1;
+  width: 100%; padding: 80px var(--px);
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 72px; align-items: center;
+}
+.fract-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(34,132,63,.1); border: 1px solid rgba(34,132,63,.25);
+  border-radius: 100px; padding: 6px 14px;
+  font-size: .78rem; font-weight: 700; color: var(--green-600);
+  letter-spacing: .06em; text-transform: uppercase; margin-bottom: 24px;
+}
+.fract-badge::before {
+  content: ''; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--green-400); animation: pulse 2s infinite;
+}
+.fract-title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6vw, 5.2rem);
+  font-weight: 800; letter-spacing: -.04em; line-height: .92;
+  color: var(--gray-900); margin-bottom: 24px;
+}
+.fract-title .accent { color: var(--green-500); }
+.fract-sub {
+  font-size: 1.1rem; line-height: 1.7;
+  color: var(--gray-500); margin-bottom: 36px;
+}
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+/* Dashboard mock */
+.fract-dash {
+  background: white; border: 1px solid var(--gray-200);
+  border-radius: 20px; overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  animation: float1 7s ease-in-out infinite;
+}
+.dash-topbar {
+  background: var(--gray-900); padding: 14px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.dash-topbar-title { font-family: var(--font-display); font-weight: 700; color: white; font-size: .9rem; }
+.dash-range {
+  background: rgba(255,255,255,.1); border-radius: 6px;
+  padding: 4px 10px; font-size: .72rem; color: rgba(255,255,255,.6); font-weight: 600;
+}
+.dash-stats {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  border-bottom: 1px solid var(--gray-100);
+}
+.dash-stat {
+  padding: 16px 14px; border-right: 1px solid var(--gray-100);
+  text-align: center;
+}
+.dash-stat:last-child { border-right: none; }
+.dash-stat-num { font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; color: var(--gray-900); }
+.dash-stat-lbl { font-size: .68rem; color: var(--gray-500); margin-top: 2px; }
+.dash-stat-delta { font-size: .68rem; font-weight: 700; color: var(--green-500); margin-top: 2px; }
+.dash-chart-area { padding: 16px 20px 8px; }
+.dash-chart-label { font-size: .72rem; font-weight: 700; color: var(--gray-500); margin-bottom: 12px; letter-spacing: .06em; text-transform: uppercase; }
+.dash-bars { display: flex; gap: 5px; align-items: flex-end; height: 80px; }
+.d-bar {
+  flex: 1; border-radius: 4px 4px 0 0;
+  animation: barGrow .6s ease both;
+}
+.dash-line-area { padding: 8px 20px 16px; }
+.dash-sparkline {
+  width: 100%; height: 40px;
+  background: linear-gradient(180deg, rgba(42,171,82,.15) 0%, rgba(42,171,82,0) 100%);
+  border-radius: 6px; position: relative; overflow: hidden;
+}
+.dash-sparkline::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='0,35 20,28 40,30 60,20 80,22 100,12 120,15 140,8 160,10 180,5 200,7' fill='none' stroke='%232aab52' stroke-width='2'/%3E%3C/svg%3E") no-repeat center/cover;
+}
+
+/* Features */
+.fract-features {
+  display: grid; grid-template-columns: repeat(2,1fr); gap: 24px; margin-top: 56px;
+}
+.fract-feat {
+  display: flex; gap: 16px;
+  background: white; border: 1px solid var(--gray-200);
+  border-radius: var(--radius); padding: 24px; transition: all .22s;
+}
+.fract-feat:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--green-200); }
+.fract-feat-icon {
+  width: 48px; height: 48px; flex-shrink: 0; border-radius: 12px;
+  background: linear-gradient(135deg, var(--green-50), var(--green-100));
+  border: 1px solid var(--green-200);
+  display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
+}
+.fract-feat h3 { font-family: var(--font-display); font-weight: 700; font-size: 1rem; margin-bottom: 6px; }
+.fract-feat p  { font-size: .875rem; color: var(--gray-500); line-height: 1.6; }
+
+/* Integrations */
+.int-grid {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-top: 48px;
+}
+.int-card {
+  background: white; border: 1px solid var(--gray-200);
+  border-radius: var(--radius); padding: 20px;
+  text-align: center; transition: all .2s;
+}
+.int-card:hover { border-color: var(--green-300); box-shadow: var(--shadow); }
+.int-icon { font-size: 2rem; margin-bottom: 10px; }
+.int-name { font-size: .85rem; font-weight: 600; color: var(--gray-700); }
+
+/* CTA dark */
+.fract-cta {
+  background: var(--gray-900); color: white;
+  padding: 100px var(--px); text-align: center;
+}
+.fract-cta h2 { font-family: var(--font-display); font-size: clamp(2rem,4vw,3rem); font-weight: 800; letter-spacing: -.025em; margin-bottom: 16px; }
+.fract-cta p  { color: rgba(255,255,255,.6); font-size: 1.05rem; margin-bottom: 36px; }
+
+@media (max-width: 960px) {
+  .hero-content   { grid-template-columns: 1fr; }
+  .fract-dash     { display: none; }
+  .fract-features { grid-template-columns: 1fr; }
+  .int-grid       { grid-template-columns: repeat(2,1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<section class="fract-hero">
+  <div class="hero-content">
+    <div>
+      <div class="fract-badge">Boomstrick App</div>
+      <h1 class="fract-title">
+        Analytics<br>
+        that <span class="accent">fracture</span><br>
+        assumptions.
+      </h1>
+      <p class="fract-sub">FRACT is a modular analytics engine that turns raw data across your entire Boomstrick stack into decisions you can act on — in real time.</p>
+      <div class="hero-actions">
+        <a href="#" class="btn btn-primary btn-lg">Start for Free</a>
+        <a href="#" class="btn btn-outline btn-lg">See a Demo</a>
+      </div>
+    </div>
+
+    <!-- Dashboard mock -->
+    <div class="fract-dash">
+      <div class="dash-topbar">
+        <div class="dash-topbar-title">FRACT — Overview</div>
+        <div class="dash-range">Last 30 days ▾</div>
+      </div>
+      <div class="dash-stats">
+        <div class="dash-stat">
+          <div class="dash-stat-num">4.2M</div>
+          <div class="dash-stat-lbl">Events</div>
+          <div class="dash-stat-delta">↑ 18%</div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat-num">92k</div>
+          <div class="dash-stat-lbl">Users</div>
+          <div class="dash-stat-delta">↑ 7%</div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat-num">3.8s</div>
+          <div class="dash-stat-lbl">Avg Session</div>
+          <div class="dash-stat-delta">↑ 12%</div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat-num">98.2%</div>
+          <div class="dash-stat-lbl">Uptime</div>
+          <div class="dash-stat-delta">↑ 0.4%</div>
+        </div>
+      </div>
+      <div class="dash-chart-area">
+        <div class="dash-chart-label">Daily Active Users</div>
+        <div class="dash-bars">
+          <div class="d-bar" style="height:45%;background:var(--green-200);animation-delay:.05s"></div>
+          <div class="d-bar" style="height:60%;background:var(--green-300);animation-delay:.10s"></div>
+          <div class="d-bar" style="height:50%;background:var(--green-200);animation-delay:.15s"></div>
+          <div class="d-bar" style="height:75%;background:var(--green-400);animation-delay:.20s"></div>
+          <div class="d-bar" style="height:65%;background:var(--green-300);animation-delay:.25s"></div>
+          <div class="d-bar" style="height:88%;background:var(--green-500);animation-delay:.30s"></div>
+          <div class="d-bar" style="height:72%;background:var(--green-400);animation-delay:.35s"></div>
+          <div class="d-bar" style="height:95%;background:var(--green-500);animation-delay:.40s"></div>
+          <div class="d-bar" style="height:80%;background:var(--green-400);animation-delay:.45s"></div>
+        </div>
+      </div>
+      <div class="dash-line-area">
+        <div class="dash-chart-label">Revenue Trend</div>
+        <div class="dash-sparkline"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURES ── -->
+<section class="section" style="background:var(--gray-50)">
+  <div class="fade-in">
+    <div class="section-label">Capabilities</div>
+    <h2 class="section-title">Every metric. Every app. One view.</h2>
+    <p class="section-sub">FRACT's modular design means you only pay for the analytics modules you actually use — and they snap together seamlessly.</p>
+  </div>
+  <div class="fract-features">
+    <div class="fract-feat fade-in">
+      <div class="fract-feat-icon">📡</div>
+      <div>
+        <h3>Real-Time Event Streaming</h3>
+        <p>Track every user action, app event, and system signal as they happen — with sub-100ms latency and zero sampling.</p>
+      </div>
+    </div>
+    <div class="fract-feat fade-in">
+      <div class="fract-feat-icon">🧩</div>
+      <div>
+        <h3>Modular Dashboard Builder</h3>
+        <p>Drag, drop, and compose custom dashboards from 40+ chart types. Share them with your team in one click.</p>
+      </div>
+    </div>
+    <div class="fract-feat fade-in">
+      <div class="fract-feat-icon">🤖</div>
+      <div>
+        <h3>AI Anomaly Detection</h3>
+        <p>FRACT learns your data patterns and alerts you the moment something unusual happens — before users notice.</p>
+      </div>
+    </div>
+    <div class="fract-feat fade-in">
+      <div class="fract-feat-icon">🔗</div>
+      <div>
+        <h3>Cross-App Attribution</h3>
+        <p>Understand how a message in MBox leads to a purchase in BoomShop. Full-stack attribution, finally done right.</p>
+      </div>
+    </div>
+    <div class="fract-feat fade-in">
+      <div class="fract-feat-icon">🛡️</div>
+      <div>
+        <h3>Privacy-First Architecture</h3>
+        <p>GDPR, CCPA, and HIPAA ready by default. Anonymize, redact, and control your data pipeline with precision.</p>
+      </div>
+    </div>
+    <div class="fract-feat fade-in">
+      <div class="fract-feat-icon">⚡</div>
+      <div>
+        <h3>SQL + No-Code Query</h3>
+        <p>Power users write raw SQL. Everyone else uses the visual query builder. Both produce the same fast results.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── INTEGRATIONS ── -->
+<section class="section" style="background:white">
+  <div class="fade-in">
+    <div class="section-label">Integrations</div>
+    <h2 class="section-title">Works with your whole stack.</h2>
+    <p class="section-sub">FRACT connects natively to every Boomstrick app and your favourite external tools.</p>
+  </div>
+  <div class="int-grid">
+    <div class="int-card fade-in"><div class="int-icon">📦</div><div class="int-name">MBox</div></div>
+    <div class="int-card fade-in"><div class="int-icon">🛒</div><div class="int-name">BoomShop</div></div>
+    <div class="int-card fade-in"><div class="int-icon">🗂️</div><div class="int-name">BoomSpace</div></div>
+    <div class="int-card fade-in"><div class="int-icon">⚡</div><div class="int-name">BoomFlow</div></div>
+    <div class="int-card fade-in"><div class="int-icon">📊</div><div class="int-name">Tableau</div></div>
+    <div class="int-card fade-in"><div class="int-icon">🔵</div><div class="int-name">Salesforce</div></div>
+    <div class="int-card fade-in"><div class="int-icon">📋</div><div class="int-name">Notion</div></div>
+    <div class="int-card fade-in"><div class="int-icon">💜</div><div class="int-name">Slack</div></div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="fract-cta">
+  <div class="fade-in" style="max-width:600px;margin:0 auto">
+    <h2>Stop guessing. Start knowing.</h2>
+    <p>Join thousands of teams using FRACT to turn data into decisions. Free plan available — no credit card needed.</p>
+    <a href="#" class="btn btn-primary btn-lg">Get FRACT Free</a>
+  </div>
+</section>
+
+<script src="shared.js"></script>
+</body>
+</html>
