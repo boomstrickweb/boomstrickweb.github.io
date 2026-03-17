@@ -1,4 +1,4 @@
-/* shared.js — injects nav and footer into every page */
+/* shared.js — Boomstrick nav + footer injection */
 
 const NAV_HTML = `
 <nav>
@@ -9,31 +9,77 @@ const NAV_HTML = `
       </div>
       <span class="logo-name">Boomstrick</span>
     </a>
+
     <ul class="nav-links">
-      <li><a href="apps.html">Apps</a></li>
-      <li><a href="blog.html">Latest</a></li>
-      <li><a href="about.html">About Us</a></li>
-      <li><a href="gallery.html">Media</a></li>
-      <li><a href="newsroom.html">Newsroom</a></li>
+      <!-- Apps dropdown -->
+      <li class="nav-has-dropdown">
+        <a href="#" class="nav-parent">
+          Apps
+          <svg class="nav-chevron" viewBox="0 0 12 8" fill="none">
+            <path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </a>
+        <div class="nav-dropdown">
+          <a href="mbox.html" class="dd-item">
+            <div class="dd-icon" style="background:linear-gradient(135deg,#0f2d18,#2aab52)">📦</div>
+            <div class="dd-text">
+              <span class="dd-name">MBox</span>
+              <span class="dd-desc">Unified messaging &amp; inbox</span>
+            </div>
+          </a>
+          <a href="fract.html" class="dd-item">
+            <div class="dd-icon" style="background:linear-gradient(135deg,#1a4427,#3dcc6a)">⬡</div>
+            <div class="dd-text">
+              <span class="dd-name">FRACT</span>
+              <span class="dd-desc">Modular analytics engine</span>
+            </div>
+          </a>
+        </div>
+      </li>
+
+      <!-- Projects dropdown -->
+      <li class="nav-has-dropdown">
+        <a href="#" class="nav-parent">
+          Projects
+          <svg class="nav-chevron" viewBox="0 0 12 8" fill="none">
+            <path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </a>
+        <div class="nav-dropdown">
+          <a href="thelioraproject.html" class="dd-item">
+            <div class="dd-icon" style="background:linear-gradient(135deg,#22843f,#7de89f)">🌿</div>
+            <div class="dd-text">
+              <span class="dd-name">The Liora Project</span>
+              <span class="dd-desc">Sustainable design initiative</span>
+            </div>
+          </a>
+          <a href="rhombusmobile.html" class="dd-item">
+            <div class="dd-icon" style="background:linear-gradient(135deg,#0a1f10,#22843f)">◆</div>
+            <div class="dd-text">
+              <span class="dd-name">Rhombus Mobile</span>
+              <span class="dd-desc">Next-gen mobile experience</span>
+            </div>
+          </a>
+        </div>
+      </li>
     </ul>
-    <div class="nav-cta">
-      <a href="#" class="btn btn-ghost">Sign In</a>
-      <a href="#" class="btn btn-primary">Get Started</a>
-    </div>
+
     <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
   </div>
 </nav>
+
 <div class="mobile-menu" id="mobileMenu">
-  <a href="apps.html"     onclick="closeMenu()">Apps</a>
-  <a href="blog.html"     onclick="closeMenu()">The Latest</a>
-  <a href="about.html"    onclick="closeMenu()">About Us</a>
-  <a href="gallery.html"  onclick="closeMenu()">Media Gallery</a>
-  <a href="newsroom.html" onclick="closeMenu()">Newsroom</a>
-  <div class="mobile-cta">
-    <a href="#" class="btn btn-outline btn-lg" style="justify-content:center">Sign In</a>
-    <a href="#" class="btn btn-primary btn-lg" style="justify-content:center">Get Started</a>
+  <div class="mob-section">
+    <div class="mob-section-label">Apps</div>
+    <a href="mbox.html"  onclick="closeMenu()">📦 &nbsp;MBox</a>
+    <a href="fract.html" onclick="closeMenu()">⬡ &nbsp;FRACT</a>
+  </div>
+  <div class="mob-section">
+    <div class="mob-section-label">Projects</div>
+    <a href="thelioraproject.html" onclick="closeMenu()">🌿 &nbsp;The Liora Project</a>
+    <a href="rhombusmobile.html"  onclick="closeMenu()">◆ &nbsp;Rhombus Mobile</a>
   </div>
 </div>`;
 
@@ -61,33 +107,25 @@ const FOOTER_HTML = `
       </div>
     </div>
     <div class="footer-col">
-      <h4>Platform</h4>
+      <h4>Apps</h4>
       <ul>
-        <li><a href="apps.html">BoomChat</a></li>
-        <li><a href="apps.html">BoomSpace</a></li>
-        <li><a href="apps.html">BoomInsight</a></li>
-        <li><a href="apps.html">BoomShop</a></li>
-        <li><a href="apps.html">BoomGuard</a></li>
-        <li><a href="apps.html">BoomFlow</a></li>
+        <li><a href="mbox.html">MBox</a></li>
+        <li><a href="fract.html">FRACT</a></li>
       </ul>
     </div>
     <div class="footer-col">
-      <h4>Company</h4>
+      <h4>Projects</h4>
       <ul>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="newsroom.html">Newsroom</a></li>
+        <li><a href="thelioraproject.html">The Liora Project</a></li>
+        <li><a href="rhombusmobile.html">Rhombus Mobile</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Boomstrick</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
         <li><a href="#">Careers</a></li>
-        <li><a href="gallery.html">Media Gallery</a></li>
-        <li><a href="#">Investor Relations</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Developers</h4>
-      <ul>
         <li><a href="#">API Docs</a></li>
-        <li><a href="#">Status</a></li>
-        <li><a href="#">Changelog</a></li>
-        <li><a href="#">Community</a></li>
         <li><a href="#">Support</a></li>
       </ul>
     </div>
@@ -103,15 +141,17 @@ const FOOTER_HTML = `
 </footer>`;
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Inject nav
   document.body.insertAdjacentHTML('afterbegin', NAV_HTML);
-  // Inject footer
   document.body.insertAdjacentHTML('beforeend', FOOTER_HTML);
 
-  // Active nav link
+  // Active state for parent when on a child page
   const page = location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.nav-links a').forEach(a => {
-    if (a.getAttribute('href') === page) a.classList.add('active');
+  const appPages     = ['mbox.html','fract.html'];
+  const projectPages = ['thelioraproject.html','rhombusmobile.html'];
+  document.querySelectorAll('.nav-has-dropdown').forEach(li => {
+    const links = [...li.querySelectorAll('.dd-item')].map(a => a.getAttribute('href'));
+    const isActive = links.some(h => h === page);
+    if (isActive) li.querySelector('.nav-parent').classList.add('active');
   });
 
   // Fade-in observer
