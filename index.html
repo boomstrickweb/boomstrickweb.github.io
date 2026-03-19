@@ -180,16 +180,59 @@
 .btn-outline-white { border: 1.5px solid rgba(255,255,255,.5); color: white; background: transparent; }
 .btn-outline-white:hover { border-color: white; background: rgba(255,255,255,.1); }
 
+/* Blog highlights */
+.blog-highlight { background: var(--gray-50); }
+.blog-hl-grid {
+  display: grid; grid-template-columns: 1.3fr 1fr;
+  gap: 24px; margin-top: 48px;
+}
+.blog-hl-card {
+  background: white; border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg); overflow: hidden;
+  text-decoration: none; color: inherit;
+  display: flex; flex-direction: column;
+  transition: all .22s;
+}
+.blog-hl-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.blog-hl-img {
+  width: 100%; aspect-ratio: 16/9;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3.5rem;
+}
+.blog-hl-img.small { aspect-ratio: 16/7; font-size: 2.5rem; }
+.blog-hl-body { padding: 28px; flex: 1; display: flex; flex-direction: column; }
+.blog-hl-tag {
+  font-size: .72rem; font-weight: 700; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--green-600); margin-bottom: 12px;
+}
+.blog-hl-body h3 {
+  font-family: var(--font-display); font-size: 1.2rem; font-weight: 700;
+  line-height: 1.3; margin-bottom: 10px;
+}
+.blog-hl-card:not(.featured) .blog-hl-body h3 { font-size: 1.05rem; }
+.blog-hl-body p { font-size: .9rem; color: var(--gray-500); line-height: 1.65; flex: 1; }
+.blog-hl-meta {
+  display: flex; align-items: center; gap: 10px;
+  font-size: .8rem; color: var(--gray-500);
+  margin-top: 20px; padding-top: 16px;
+  border-top: 1px solid var(--gray-100);
+}
+.blog-hl-avatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--green-500), var(--green-700));
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: .68rem; font-weight: 700; flex-shrink: 0;
+}
+.blog-hl-read { margin-left: auto; font-weight: 600; color: var(--green-600); }
+
 @media (max-width: 960px) {
-  .hero-content { grid-template-columns: 1fr; }
-  .hero-visual  { display: none; }
-  .apps-strip   { grid-template-columns: repeat(2,1fr); }
+  .hero-content  { grid-template-columns: 1fr; }
+  .hero-visual   { display: none; }
+  .apps-strip    { grid-template-columns: repeat(2,1fr); }
+  .blog-hl-grid  { grid-template-columns: 1fr; }
 }
 @media (max-width: 600px) {
   .apps-strip { grid-template-columns: 1fr; }
-  .stats-inner { flex-direction: column; }
-  .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,.1); }
-  .stat-item:last-child { border-bottom: none; }
 }
 </style>
 </head>
@@ -259,15 +302,7 @@
   </div>
 </section>
 
-<!-- ── STATS ── -->
-<div class="stats-bar">
-  <div class="stats-inner">
-    <div class="stat-item fade-in"><div class="stat-num">180+</div><div class="stat-text">Countries reached</div></div>
-    <div class="stat-item fade-in"><div class="stat-num">12M</div><div class="stat-text">Active users</div></div>
-    <div class="stat-item fade-in"><div class="stat-num">99.9%</div><div class="stat-text">Platform uptime</div></div>
-    <div class="stat-item fade-in"><div class="stat-num">6</div><div class="stat-text">Integrated apps</div></div>
-  </div>
-</div>
+
 
 <!-- ── APP TEASERS ── -->
 <section class="section apps-teaser">
@@ -321,15 +356,42 @@
   </div>
 </section>
 
-<!-- ── CTA ── -->
-<section class="cta-section">
-  <div class="cta-inner fade-in">
-    <h2>Ready to unify your stack?</h2>
-    <p>Join 12 million users who manage every app through Boomstrick — faster, smarter, together.</p>
-    <div class="cta-actions">
-      <a href="#" class="btn btn-white btn-lg">Start for Free</a>
-      <a href="about.html" class="btn btn-outline-white btn-lg">Learn About Us</a>
-    </div>
+<!-- ── BLOG HIGHLIGHTS ── -->
+<section class="section blog-highlight">
+  <div class="fade-in">
+    <div class="section-label">The Latest from Boomstrick</div>
+    <h2 class="section-title">News & stories</h2>
+  </div>
+  <div class="blog-hl-grid">
+
+    <a href="blog.html" class="blog-hl-card featured fade-in">
+      <div class="blog-hl-img" style="background:linear-gradient(135deg,#2aab52 0%,#4cd97a 60%,#93f0b5 100%)">🚀</div>
+      <div class="blog-hl-body">
+        <span class="blog-hl-tag">Product Update</span>
+        <h3>Boomstrick 3.0: The Unified Platform Reimagined for the Age of AI</h3>
+        <p>We've rebuilt the core of Boomstrick from the ground up — smarter routing, near-zero latency sync, and AI-native integrations across every product.</p>
+        <div class="blog-hl-meta">
+          <div class="blog-hl-avatar">JL</div>
+          <span>James Laurent · March 12, 2026</span>
+          <span class="blog-hl-read">8 min read</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="blog.html" class="blog-hl-card fade-in">
+      <div class="blog-hl-img small" style="background:linear-gradient(135deg,#3dcc6a 0%,#6ee89a 100%)">🔐</div>
+      <div class="blog-hl-body">
+        <span class="blog-hl-tag">Security</span>
+        <h3>How MBox Is Redefining Zero-Trust for Multi-App Ecosystems</h3>
+        <p>A deep look into the architecture decisions behind our new identity layer.</p>
+        <div class="blog-hl-meta">
+          <div class="blog-hl-avatar">SR</div>
+          <span>Sara Reyes · Feb 28, 2026</span>
+          <span class="blog-hl-read">6 min read</span>
+        </div>
+      </div>
+    </a>
+
   </div>
 </section>
 
