@@ -53,13 +53,6 @@ const NAV_HTML = `
               <span class="dd-desc">Sustainable design initiative</span>
             </div>
           </a>
-          <a href="rhombusmobile.html" class="dd-item">
-            <div class="dd-icon" style="background:linear-gradient(135deg,#6ee89a,#4cd97a)">◆</div>
-            <div class="dd-text">
-              <span class="dd-name">Rhombus Mobile</span>
-              <span class="dd-desc">Next-gen mobile experience</span>
-            </div>
-          </a>
         </div>
       </li>
     </ul>
@@ -79,7 +72,6 @@ const NAV_HTML = `
   <div class="mob-section">
     <div class="mob-section-label">Projects</div>
     <a href="thelioraproject.html" onclick="closeMenu()">🌿 &nbsp;The Liora Project</a>
-    <a href="rhombusmobile.html"  onclick="closeMenu()">◆ &nbsp;Rhombus Mobile</a>
   </div>
 </div>`;
 
@@ -95,7 +87,7 @@ const FOOTER_HTML = `
       </a>
       <p class="footer-tagline">One platform. All your apps.<br>Built for the way modern teams work.</p>
       <div class="social-links">
-        <a href="https://facebook.com/boomstrickfb" class="social-btn" target="_blank" aria-label="Facebook">
+        <a href="https://facebook.com/boomstrick" class="social-btn" target="_blank" aria-label="Facebook">
           <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
         </a>
         <a href="https://instagram.com/boomstrick" class="social-btn" target="_blank" aria-label="Instagram">
@@ -117,7 +109,6 @@ const FOOTER_HTML = `
       <h4>Projects</h4>
       <ul>
         <li><a href="thelioraproject.html">The Liora Project</a></li>
-        <li><a href="rhombusmobile.html">Rhombus Mobile</a></li>
       </ul>
     </div>
     <div class="footer-col">
