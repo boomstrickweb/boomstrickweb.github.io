@@ -2,16 +2,17 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=Syne:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --green-900: #0a1f10;
-  --green-800: #0f2d18;
-  --green-700: #1a4427;
-  --green-600: #1f6335;
-  --green-500: #22843f;
-  --green-400: #2aab52;
-  --green-300: #3dcc6a;
-  --green-200: #7de89f;
-  --green-100: #c5f7d5;
-  --green-50:  #edfff3;
+  /* Shifted up ~3 stops — everything lighter & fresher */
+  --green-900: #1a4427;   /* was #0a1f10 */
+  --green-800: #22843f;   /* was #0f2d18 */
+  --green-700: #2aab52;   /* was #1a4427 */
+  --green-600: #3dcc6a;   /* was #1f6335 */
+  --green-500: #4cd97a;   /* was #22843f — primary brand */
+  --green-400: #6ee89a;   /* was #2aab52 */
+  --green-300: #93f0b5;   /* was #3dcc6a */
+  --green-200: #bbf7d0;   /* was #7de89f */
+  --green-100: #dcfce7;   /* was #c5f7d5 */
+  --green-50:  #f0fdf4;   /* was #edfff3 */
   --white: #ffffff;
   --gray-50:  #f8faf9;
   --gray-100: #f0f4f1;
@@ -25,8 +26,8 @@
   --nav-h: 68px;
   --radius:    14px;
   --radius-lg: 22px;
-  --shadow:    0 2px 16px rgba(10,31,16,.10);
-  --shadow-lg: 0 8px 48px rgba(10,31,16,.16);
+  --shadow:    0 2px 16px rgba(34,132,63,.10);
+  --shadow-lg: 0 8px 48px rgba(34,132,63,.16);
   --max-w: 1200px;
   --px: max(24px, calc((100vw - var(--max-w)) / 2));
 }
