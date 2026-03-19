@@ -21,14 +21,14 @@ const NAV_HTML = `
         </a>
         <div class="nav-dropdown">
           <a href="mbox.html" class="dd-item">
-            <div class="dd-icon" style="background:linear-gradient(135deg,#0f2d18,#2aab52)">📦</div>
+            <div class="dd-icon" style="background:linear-gradient(135deg,#4cd97a,#6ee89a)">📦</div>
             <div class="dd-text">
               <span class="dd-name">MBox</span>
               <span class="dd-desc">Unified messaging &amp; inbox</span>
             </div>
           </a>
           <a href="fract.html" class="dd-item">
-            <div class="dd-icon" style="background:linear-gradient(135deg,#1a4427,#3dcc6a)">⬡</div>
+            <div class="dd-icon" style="background:linear-gradient(135deg,#6ee89a,#93f0b5)">⬡</div>
             <div class="dd-text">
               <span class="dd-name">FRACT</span>
               <span class="dd-desc">Modular analytics engine</span>
@@ -47,14 +47,14 @@ const NAV_HTML = `
         </a>
         <div class="nav-dropdown">
           <a href="thelioraproject.html" class="dd-item">
-            <div class="dd-icon" style="background:linear-gradient(135deg,#22843f,#7de89f)">🌿</div>
+            <div class="dd-icon" style="background:linear-gradient(135deg,#4cd97a,#7de89f)">🌿</div>
             <div class="dd-text">
               <span class="dd-name">The Liora Project</span>
               <span class="dd-desc">Sustainable design initiative</span>
             </div>
           </a>
           <a href="rhombusmobile.html" class="dd-item">
-            <div class="dd-icon" style="background:linear-gradient(135deg,#0a1f10,#22843f)">◆</div>
+            <div class="dd-icon" style="background:linear-gradient(135deg,#6ee89a,#4cd97a)">◆</div>
             <div class="dd-text">
               <span class="dd-name">Rhombus Mobile</span>
               <span class="dd-desc">Next-gen mobile experience</span>
