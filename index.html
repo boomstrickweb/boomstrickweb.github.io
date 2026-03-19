@@ -132,6 +132,31 @@
 .app-mini h3 { font-family: var(--font-display); font-weight: 700; font-size: 1rem; }
 .app-mini p  { font-size: .85rem; color: var(--gray-500); line-height: 1.5; }
 
+/* Category headings */
+.cat-heading {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 20px; margin-top: 52px;
+}
+.cat-pill-label {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--green-50); border: 1.5px solid var(--green-200);
+  border-radius: 100px; padding: 5px 16px;
+  font-size: .78rem; font-weight: 800;
+  color: var(--green-600); letter-spacing: .08em; text-transform: uppercase;
+}
+.cat-line { flex: 1; height: 1px; background: var(--gray-200); }
+
+/* Launch Soon badge */
+.soon-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(110,232,154,.15); border: 1px solid rgba(110,232,154,.35);
+  color: var(--green-700); font-size: .68rem; font-weight: 700;
+  letter-spacing: .07em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 100px;
+  margin-top: 10px; width: fit-content;
+}
+.soon-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green-400); }
+
 /* CTA section */
 .cta-section {
   background: linear-gradient(135deg, var(--green-800) 0%, var(--green-600) 50%, var(--green-500) 100%);
@@ -249,42 +274,50 @@
   <div class="fade-in">
     <div class="section-label">Our Platform</div>
     <h2 class="section-title">All your apps. One roof.</h2>
-    <p class="section-sub">From messaging to commerce, every Boomstrick product is built to work better together.</p>
+    <p class="section-sub">Every Boomstrick product is built to work better together — across social and AI categories.</p>
+  </div>
+
+  <!-- Social -->
+  <div class="cat-heading fade-in">
+    <span class="cat-pill-label">🌐 Social</span>
+    <span class="cat-line"></span>
+  </div>
+  <div class="apps-strip" style="grid-template-columns: repeat(1, 340px);">
+    <a href="fract.html" class="app-mini fade-in">
+      <div class="app-mini-icon">⬡</div>
+      <h3>FRACT</h3>
+      <p>Context-first microblogging app.</p>
+    </a>
+  </div>
+
+  <!-- AI -->
+  <div class="cat-heading fade-in">
+    <span class="cat-pill-label">✦ AI</span>
+    <span class="cat-line"></span>
   </div>
   <div class="apps-strip">
-    <a href="apps.html" class="app-mini fade-in">
-      <div class="app-mini-icon">💬</div>
-      <h3>BoomChat</h3>
-      <p>Real-time messaging, voice, and video — for every team.</p>
+    <a href="mbox.html" class="app-mini fade-in">
+      <div class="app-mini-icon">📦</div>
+      <h3>MBox</h3>
+      <p>AI-powered web browser.</p>
     </a>
-    <a href="apps.html" class="app-mini fade-in">
-      <div class="app-mini-icon">🗂️</div>
-      <h3>BoomSpace</h3>
-      <p>Projects, docs, and tasks — always in sync.</p>
+    <a href="#" class="app-mini fade-in">
+      <div class="app-mini-icon">🎬</div>
+      <h3>Liora TV</h3>
+      <p>AI-generated films, all in one streaming platform.</p>
+      <div class="soon-badge">Launching Soon</div>
     </a>
-    <a href="apps.html" class="app-mini fade-in">
-      <div class="app-mini-icon">📊</div>
-      <h3>BoomInsight</h3>
-      <p>Live dashboards across every app you run.</p>
+    <a href="#" class="app-mini fade-in">
+      <div class="app-mini-icon">🌍</div>
+      <h3>Liora Translate</h3>
+      <p>AI-powered translation app.</p>
+      <div class="soon-badge">Launching Soon</div>
     </a>
-    <a href="apps.html" class="app-mini fade-in">
-      <div class="app-mini-icon">🛒</div>
-      <h3>BoomShop</h3>
-      <p>End-to-end commerce, fully integrated.</p>
+    <a href="thelioraproject.html" class="app-mini fade-in">
+      <div class="app-mini-icon">🎥</div>
+      <h3>Boomstrick Film</h3>
+      <p>AI content production studio.</p>
     </a>
-    <a href="apps.html" class="app-mini fade-in">
-      <div class="app-mini-icon">🔐</div>
-      <h3>BoomGuard</h3>
-      <p>Enterprise security and identity management.</p>
-    </a>
-    <a href="apps.html" class="app-mini fade-in">
-      <div class="app-mini-icon">⚡</div>
-      <h3>BoomFlow</h3>
-      <p>No-code automation between all your apps.</p>
-    </a>
-  </div>
-  <div style="text-align:center;margin-top:40px">
-    <a href="apps.html" class="btn btn-outline btn-lg fade-in">See All Apps →</a>
   </div>
 </section>
 
