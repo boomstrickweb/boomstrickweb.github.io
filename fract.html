@@ -3,305 +3,537 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FRACT — Boomstrick</title>
-<link rel="stylesheet" href="style.css">
+<title>FRACT — A Social Network Built for Freedom</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* ── HERO ── */
-.fract-hero {
-  min-height: 100vh; padding-top: var(--nav-h);
-  display: flex; align-items: center;
-  background: linear-gradient(150deg, #f8faf9 0%, #f0fdf4 40%, #dcfce7 100%);
-  position: relative; overflow: hidden;
-}
-.fract-hero::before {
-  content: ''; position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse 60% 50% at 80% 30%, rgba(61,204,106,.15) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 35% at 10% 70%, rgba(34,132,63,.09) 0%, transparent 60%);
-  pointer-events: none;
-}
-.fract-hero::after {
-  content: ''; position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(34,132,63,.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(34,132,63,.05) 1px, transparent 1px);
-  background-size: 48px 48px; pointer-events: none;
-}
-.hero-content {
-  position: relative; z-index: 1;
-  width: 100%; padding: 80px var(--px);
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 72px; align-items: center;
-}
-.fract-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: rgba(34,132,63,.1); border: 1px solid rgba(34,132,63,.25);
-  border-radius: 100px; padding: 6px 14px;
-  font-size: .78rem; font-weight: 700; color: var(--green-600);
-  letter-spacing: .06em; text-transform: uppercase; margin-bottom: 24px;
-}
-.fract-badge::before {
-  content: ''; width: 7px; height: 7px; border-radius: 50%;
-  background: var(--green-400); animation: pulse 2s infinite;
-}
-.fract-title {
-  font-family: var(--font-display);
-  font-size: clamp(3rem, 6vw, 5.2rem);
-  font-weight: 800; letter-spacing: -.04em; line-height: .92;
-  color: var(--gray-900); margin-bottom: 24px;
-}
-.fract-title .accent { color: var(--green-500); }
-.fract-sub {
-  font-size: 1.1rem; line-height: 1.7;
-  color: var(--gray-500); margin-bottom: 36px;
-}
-.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  :root {
+    --bg:      #0a0a0a;
+    --bg2:     #111111;
+    --bg3:     #181818;
+    --border:  rgba(255,255,255,.08);
+    --border2: rgba(255,255,255,.14);
+    --white:   #ffffff;
+    --g1:      #f5f5f5;
+    --g3:      #a3a3a3;
+    --g5:      #525252;
+    --acc:     #4cd97a;
+    --acc-d:   #2aab52;
+    --acc-g:   linear-gradient(135deg,#2aab52 0%,#4cd97a 55%,#93f0b5 100%);
+    --fd: 'Syne', sans-serif;
+    --fb: 'DM Sans', sans-serif;
+    --nav-h: 64px;
+    --mw: 1080px;
+    --px: max(24px, calc((100vw - var(--mw)) / 2));
+    --r: 14px;
+    --rl: 22px;
+  }
 
-/* Dashboard mock */
-.fract-dash {
-  background: white; border: 1px solid var(--gray-200);
-  border-radius: 20px; overflow: hidden;
-  box-shadow: var(--shadow-lg);
-  animation: float1 7s ease-in-out infinite;
-}
-.dash-topbar {
-  background: var(--gray-900); padding: 14px 20px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.dash-topbar-title { font-family: var(--font-display); font-weight: 700; color: white; font-size: .9rem; }
-.dash-range {
-  background: rgba(255,255,255,.1); border-radius: 6px;
-  padding: 4px 10px; font-size: .72rem; color: rgba(255,255,255,.6); font-weight: 600;
-}
-.dash-stats {
-  display: grid; grid-template-columns: repeat(4,1fr);
-  border-bottom: 1px solid var(--gray-100);
-}
-.dash-stat {
-  padding: 16px 14px; border-right: 1px solid var(--gray-100);
-  text-align: center;
-}
-.dash-stat:last-child { border-right: none; }
-.dash-stat-num { font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; color: var(--gray-900); }
-.dash-stat-lbl { font-size: .68rem; color: var(--gray-500); margin-top: 2px; }
-.dash-stat-delta { font-size: .68rem; font-weight: 700; color: var(--green-500); margin-top: 2px; }
-.dash-chart-area { padding: 16px 20px 8px; }
-.dash-chart-label { font-size: .72rem; font-weight: 700; color: var(--gray-500); margin-bottom: 12px; letter-spacing: .06em; text-transform: uppercase; }
-.dash-bars { display: flex; gap: 5px; align-items: flex-end; height: 80px; }
-.d-bar {
-  flex: 1; border-radius: 4px 4px 0 0;
-  animation: barGrow .6s ease both;
-}
-.dash-line-area { padding: 8px 20px 16px; }
-.dash-sparkline {
-  width: 100%; height: 40px;
-  background: linear-gradient(180deg, rgba(42,171,82,.15) 0%, rgba(42,171,82,0) 100%);
-  border-radius: 6px; position: relative; overflow: hidden;
-}
-.dash-sparkline::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='0,35 20,28 40,30 60,20 80,22 100,12 120,15 140,8 160,10 180,5 200,7' fill='none' stroke='%232aab52' stroke-width='2'/%3E%3C/svg%3E") no-repeat center/cover;
-}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--fb); background: var(--bg); color: var(--white); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 
-/* Features */
-.fract-features {
-  display: grid; grid-template-columns: repeat(2,1fr); gap: 24px; margin-top: 56px;
-}
-.fract-feat {
-  display: flex; gap: 16px;
-  background: white; border: 1px solid var(--gray-200);
-  border-radius: var(--radius); padding: 24px; transition: all .22s;
-}
-.fract-feat:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--green-200); }
-.fract-feat-icon {
-  width: 48px; height: 48px; flex-shrink: 0; border-radius: 12px;
-  background: linear-gradient(135deg, var(--green-50), var(--green-100));
-  border: 1px solid var(--green-200);
-  display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
-}
-.fract-feat h3 { font-family: var(--font-display); font-weight: 700; font-size: 1rem; margin-bottom: 6px; }
-.fract-feat p  { font-size: .875rem; color: var(--gray-500); line-height: 1.6; }
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: var(--nav-h);
+    background: rgba(10,10,10,.88);
+    backdrop-filter: blur(24px) saturate(160%);
+    border-bottom: 1px solid var(--border);
+    padding: 0 var(--px);
+    display: flex; align-items: center;
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+  .nav-logo { display: flex; align-items: center; gap: 9px; text-decoration: none; }
+  .nav-logo img { width: 30px; height: 30px; border-radius: 7px; object-fit: cover; }
+  .nav-logo span { font-family: var(--fd); font-weight: 800; font-size: 1.1rem; color: var(--white); letter-spacing: -.02em; }
+  .nav-back {
+    display: flex; align-items: center; gap: 6px;
+    font-size: .85rem; font-weight: 500; color: var(--g3);
+    text-decoration: none; transition: color .15s;
+  }
+  .nav-back:hover { color: var(--white); }
 
-/* Integrations */
-.int-grid {
-  display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-top: 48px;
-}
-.int-card {
-  background: white; border: 1px solid var(--gray-200);
-  border-radius: var(--radius); padding: 20px;
-  text-align: center; transition: all .2s;
-}
-.int-card:hover { border-color: var(--green-300); box-shadow: var(--shadow); }
-.int-icon { font-size: 2rem; margin-bottom: 10px; }
-.int-name { font-size: .85rem; font-weight: 600; color: var(--gray-700); }
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-family: var(--fb); font-size: .875rem; font-weight: 600;
+    border: none; cursor: pointer; border-radius: 10px;
+    padding: 9px 20px; text-decoration: none; transition: all .18s;
+  }
+  .btn-ghost { background: transparent; color: var(--g3); border: 1px solid var(--border2); }
+  .btn-ghost:hover { color: var(--white); border-color: rgba(255,255,255,.3); }
+  .btn-acc {
+    background: var(--acc-g); color: #052010; font-weight: 800;
+    box-shadow: 0 2px 18px rgba(76,217,122,.28);
+  }
+  .btn-acc:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(76,217,122,.45); }
+  .btn-lg { padding: 13px 30px; font-size: .95rem; border-radius: 12px; }
+  .btn-xl { padding: 16px 40px; font-size: 1.05rem; border-radius: 14px; font-weight: 800; }
 
-/* CTA dark */
-.fract-cta {
-  background: var(--gray-900); color: white;
-  padding: 100px var(--px); text-align: center;
-}
-.fract-cta h2 { font-family: var(--font-display); font-size: clamp(2rem,4vw,3rem); font-weight: 800; letter-spacing: -.025em; margin-bottom: 16px; }
-.fract-cta p  { color: rgba(255,255,255,.6); font-size: 1.05rem; margin-bottom: 36px; }
+  /* ── FADE ── */
+  .fi { opacity: 0; transform: translateY(26px); transition: opacity .6s ease, transform .6s ease; }
+  .fi.on { opacity: 1; transform: translateY(0); }
 
-@media (max-width: 960px) {
-  .hero-content   { grid-template-columns: 1fr; }
-  .fract-dash     { display: none; }
-  .fract-features { grid-template-columns: 1fr; }
-  .int-grid       { grid-template-columns: repeat(2,1fr); }
-}
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh; padding-top: var(--nav-h);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; text-align: center;
+    padding-left: var(--px); padding-right: var(--px);
+    position: relative; overflow: hidden;
+  }
+  .hero-glow {
+    position: absolute; top: 10%; left: 50%; transform: translateX(-50%);
+    width: 700px; height: 700px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(76,217,122,.09) 0%, transparent 68%);
+    pointer-events: none;
+  }
+  .hero-inner { position: relative; z-index: 1; max-width: 800px; padding: 64px 0 80px; }
+
+  .hero-logo-wrap { display: flex; justify-content: center; margin-bottom: 28px; }
+  .hero-logo {
+    width: 80px; height: 80px; border-radius: 20px; object-fit: cover;
+    border: 1px solid var(--border2);
+    box-shadow: 0 0 0 8px rgba(76,217,122,.06), 0 12px 40px rgba(0,0,0,.6);
+  }
+
+  .hero-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(76,217,122,.09); border: 1px solid rgba(76,217,122,.2);
+    border-radius: 100px; padding: 6px 16px;
+    font-size: .77rem; font-weight: 700; color: var(--acc);
+    letter-spacing: .08em; text-transform: uppercase;
+    margin-bottom: 26px;
+  }
+  .hero-pill::before {
+    content: ''; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--acc); animation: blink 2s infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.3;transform:scale(.55);} }
+
+  .hero h1 {
+    font-family: var(--fd);
+    font-size: clamp(2.8rem, 6.5vw, 5.4rem);
+    font-weight: 800; letter-spacing: -.045em; line-height: .97;
+    color: var(--white); margin-bottom: 24px;
+  }
+  .hero h1 .acc { color: var(--acc); }
+
+  .hero-sub {
+    font-size: clamp(.95rem, 2vw, 1.15rem); line-height: 1.75;
+    color: var(--g3); max-width: 580px; margin: 0 auto 12px;
+  }
+  .hero-long {
+    font-size: .9rem; line-height: 1.75; color: var(--g5);
+    max-width: 620px; margin: 0 auto 16px;
+  }
+  .hero-tagline {
+    font-size: .93rem; color: var(--g5); font-style: italic; margin-bottom: 40px;
+  }
+  .hero-actions {
+    display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+    margin-bottom: 64px;
+  }
+
+  /* Banner */
+  .hero-banner {
+    width: 100%; aspect-ratio: 3/1;
+    border-radius: var(--rl); overflow: hidden;
+    border: 1px solid var(--border2);
+    box-shadow: 0 24px 80px rgba(0,0,0,.65);
+    position: relative;
+  }
+  .hero-banner img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hero-banner::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,10,10,.55) 0%, transparent 55%);
+  }
+
+  /* ── BETA STRIP ── */
+  .beta-strip {
+    background: var(--bg3); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    padding: 22px var(--px);
+    display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+  }
+  .beta-dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--acc); box-shadow: 0 0 8px var(--acc);
+    animation: blink 2s infinite; margin-right: 10px;
+  }
+  .beta-strip p { font-size: .88rem; color: var(--g3); }
+  .beta-strip strong { color: var(--white); }
+
+  /* ── SECTION ── */
+  .section { padding: 100px var(--px); }
+  .slabel {
+    display: block; font-size: .73rem; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--acc); margin-bottom: 14px;
+  }
+  .stitle {
+    font-family: var(--fd);
+    font-size: clamp(1.9rem, 4vw, 3rem);
+    font-weight: 800; letter-spacing: -.03em; line-height: 1.08;
+    color: var(--white); margin-bottom: 16px;
+  }
+  .ssub { font-size: 1.05rem; line-height: 1.75; color: var(--g3); max-width: 540px; }
+
+  /* ── WHY 3-COL ── */
+  .why-section { background: var(--bg2); }
+  .why-grid {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    margin-top: 56px;
+    border: 1px solid var(--border); border-radius: var(--rl); overflow: hidden;
+  }
+  .why-card {
+    background: var(--bg3); padding: 40px 30px;
+    border-right: 1px solid var(--border); transition: background .18s;
+  }
+  .why-card:last-child { border-right: none; }
+  .why-card:hover { background: #202020; }
+  .why-icon { font-size: 2rem; display: block; margin-bottom: 18px; }
+  .why-card h3 { font-family: var(--fd); font-weight: 700; font-size: 1.05rem; color: var(--white); margin-bottom: 10px; }
+  .why-card p  { font-size: .875rem; color: var(--g3); line-height: 1.7; }
+
+  /* ── VISION IMAGE ── */
+  .vision-section { background: var(--bg); padding: 0 var(--px) 100px; }
+  .vision-box {
+    border-radius: var(--rl); overflow: hidden; position: relative;
+    border: 1px solid var(--border);
+    box-shadow: 0 20px 60px rgba(0,0,0,.5);
+  }
+  .vision-box img {
+    width: 100%; max-height: 500px; object-fit: cover; display: block;
+    filter: brightness(.85); transition: filter .4s;
+  }
+  .vision-box:hover img { filter: brightness(.95); }
+  .vision-caption {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 44px 52px;
+    background: linear-gradient(to top, rgba(0,0,0,.9) 0%, transparent 100%);
+  }
+  .vision-caption h3 {
+    font-family: var(--fd); font-size: clamp(1.5rem, 3vw, 2.4rem);
+    font-weight: 800; letter-spacing: -.03em; color: var(--white); margin-bottom: 10px;
+  }
+  .vision-caption p { font-size: .95rem; color: rgba(255,255,255,.55); max-width: 520px; line-height: 1.6; }
+
+  /* ── DIFFERENT ── */
+  .diff-section { background: var(--bg2); }
+  .diff-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 56px; align-items: start; margin-top: 56px;
+  }
+  .diff-list { display: flex; flex-direction: column; }
+  .diff-item {
+    display: flex; gap: 18px; padding: 22px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .diff-item:first-child { padding-top: 0; }
+  .diff-item:last-child  { border-bottom: none; }
+  .diff-chk {
+    width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0; margin-top: 2px;
+    background: rgba(76,217,122,.12); border: 1px solid rgba(76,217,122,.28);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .72rem; color: var(--acc);
+  }
+  .diff-item h4 { font-weight: 700; font-size: .975rem; color: var(--white); margin-bottom: 5px; }
+  .diff-item p  { font-size: .875rem; color: var(--g3); line-height: 1.6; }
+
+  .diff-panel {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: var(--rl); padding: 32px; position: sticky; top: calc(var(--nav-h) + 20px);
+  }
+  .diff-panel-lbl {
+    font-size: .7rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+    color: var(--g5); margin-bottom: 18px;
+    display: grid; grid-template-columns: 1fr auto auto; gap: 16px;
+  }
+  .diff-row {
+    display: grid; grid-template-columns: 1fr auto auto;
+    gap: 16px; align-items: center;
+    padding: 13px 0; border-bottom: 1px solid var(--border);
+    font-size: .875rem;
+  }
+  .diff-row:last-child { border-bottom: none; }
+  .diff-row span:first-child { color: var(--g3); }
+  .diff-them { color: var(--g5); font-size: .78rem; text-align: right; }
+  .diff-us   { color: var(--acc); font-weight: 700; font-size: .78rem; text-align: right; }
+
+  /* ── FILM SECTION ── */
+  .film-section { background: var(--bg); }
+  .film-box {
+    margin-top: 48px;
+    border: 1px solid var(--border); border-radius: var(--rl);
+    background: var(--bg3);
+    display: flex; flex-direction: column; align-items: center;
+    padding: 60px 32px; gap: 18px; text-align: center;
+    box-shadow: 0 16px 60px rgba(0,0,0,.4);
+  }
+  .film-icon { font-size: 2.8rem; }
+  .film-box h3 { font-family: var(--fd); font-weight: 700; font-size: 1.35rem; color: var(--white); }
+  .film-box p  { font-size: .9rem; color: var(--g3); max-width: 400px; line-height: 1.65; }
+  .ig-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);
+    color: white; font-weight: 700; font-size: .95rem;
+    padding: 13px 28px; border-radius: 12px; text-decoration: none;
+    transition: all .18s; margin-top: 8px; border: none; cursor: pointer;
+  }
+  .ig-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(253,29,29,.35); }
+
+  /* ── FINAL CTA ── */
+  .cta-wrap {
+    background: var(--bg2); padding: 120px var(--px);
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .cta-wrap::before {
+    content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 800px; height: 800px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(76,217,122,.07) 0%, transparent 68%);
+    pointer-events: none;
+  }
+  .cta-inner { position: relative; z-index: 1; max-width: 620px; margin: 0 auto; }
+  .cta-inner h2 {
+    font-family: var(--fd);
+    font-size: clamp(2.4rem, 5.5vw, 4rem);
+    font-weight: 800; letter-spacing: -.045em; line-height: 1.02;
+    color: var(--white); margin-bottom: 20px;
+  }
+  .cta-inner p    { font-size: 1.1rem; color: var(--g3); margin-bottom: 12px; line-height: 1.7; }
+  .cta-viral      { font-size: .92rem; color: var(--g5); font-style: italic; margin-bottom: 44px; }
+
+  /* ── FRACT FOOTER ── */
+  .fract-foot {
+    background: var(--bg); border-top: 1px solid var(--border);
+    padding: 28px var(--px);
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;
+  }
+  .ffoot-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+  .ffoot-logo img { width: 22px; height: 22px; border-radius: 5px; }
+  .ffoot-logo span { font-family: var(--fd); font-weight: 800; font-size: .9rem; color: var(--g3); }
+  .fract-foot p   { font-size: .78rem; color: var(--g5); }
+  .ffoot-links    { display: flex; gap: 20px; }
+  .ffoot-links a  { font-size: .8rem; color: var(--g5); text-decoration: none; transition: color .15s; }
+  .ffoot-links a:hover { color: var(--white); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 860px) {
+    .why-grid  { grid-template-columns: 1fr; }
+    .why-card  { border-right: none; border-bottom: 1px solid var(--border); }
+    .why-card:last-child { border-bottom: none; padding-bottom: 32px; }
+    .diff-grid { grid-template-columns: 1fr; }
+    .diff-panel { position: static; }
+    .vision-caption { padding: 24px 28px; }
+  }
+  @media (max-width: 540px) {
+    .hero-banner { aspect-ratio: 2/1; }
+    .beta-strip  { flex-direction: column; align-items: flex-start; }
+  }
 </style>
 </head>
 <body>
 
-<!-- ── HERO ── -->
-<section class="fract-hero">
-  <div class="hero-content">
-    <div>
-      <div class="fract-badge">Boomstrick App</div>
-      <h1 class="fract-title">
-        Analytics<br>
-        that <span class="accent">fracture</span><br>
-        assumptions.
-      </h1>
-      <p class="fract-sub">FRACT is a modular analytics engine that turns raw data across your entire Boomstrick stack into decisions you can act on — in real time.</p>
-      <div class="hero-actions">
-        <a href="#" class="btn btn-primary btn-lg">Start for Free</a>
-        <a href="#" class="btn btn-outline btn-lg">See a Demo</a>
-      </div>
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="https://cdn.bsky.app/img/avatar/plain/did:plc:pqofkt5ntrum3a7ezr7cy6qn/bafkreibaxov3spwxowbeejwdjibow5j64llbvyyoqdgwylt4fykabhynxm@jpeg" alt="FRACT">
+      <span>FRACT</span>
+    </a>
+    <a href="index.html" class="nav-back">← Back to Boomstrick</a>
+    <a href="https://fract.online/" target="_blank" class="btn btn-acc">Join FRACT</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+
+    <div class="hero-logo-wrap fi">
+      <img class="hero-logo" src="https://cdn.bsky.app/img/avatar/plain/did:plc:pqofkt5ntrum3a7ezr7cy6qn/bafkreibaxov3spwxowbeejwdjibow5j64llbvyyoqdgwylt4fykabhynxm@jpeg" alt="FRACT">
     </div>
 
-    <!-- Dashboard mock -->
-    <div class="fract-dash">
-      <div class="dash-topbar">
-        <div class="dash-topbar-title">FRACT — Overview</div>
-        <div class="dash-range">Last 30 days ▾</div>
-      </div>
-      <div class="dash-stats">
-        <div class="dash-stat">
-          <div class="dash-stat-num">4.2M</div>
-          <div class="dash-stat-lbl">Events</div>
-          <div class="dash-stat-delta">↑ 18%</div>
-        </div>
-        <div class="dash-stat">
-          <div class="dash-stat-num">92k</div>
-          <div class="dash-stat-lbl">Users</div>
-          <div class="dash-stat-delta">↑ 7%</div>
-        </div>
-        <div class="dash-stat">
-          <div class="dash-stat-num">3.8s</div>
-          <div class="dash-stat-lbl">Avg Session</div>
-          <div class="dash-stat-delta">↑ 12%</div>
-        </div>
-        <div class="dash-stat">
-          <div class="dash-stat-num">98.2%</div>
-          <div class="dash-stat-lbl">Uptime</div>
-          <div class="dash-stat-delta">↑ 0.4%</div>
-        </div>
-      </div>
-      <div class="dash-chart-area">
-        <div class="dash-chart-label">Daily Active Users</div>
-        <div class="dash-bars">
-          <div class="d-bar" style="height:45%;background:var(--green-200);animation-delay:.05s"></div>
-          <div class="d-bar" style="height:60%;background:var(--green-300);animation-delay:.10s"></div>
-          <div class="d-bar" style="height:50%;background:var(--green-200);animation-delay:.15s"></div>
-          <div class="d-bar" style="height:75%;background:var(--green-400);animation-delay:.20s"></div>
-          <div class="d-bar" style="height:65%;background:var(--green-300);animation-delay:.25s"></div>
-          <div class="d-bar" style="height:88%;background:var(--green-500);animation-delay:.30s"></div>
-          <div class="d-bar" style="height:72%;background:var(--green-400);animation-delay:.35s"></div>
-          <div class="d-bar" style="height:95%;background:var(--green-500);animation-delay:.40s"></div>
-          <div class="d-bar" style="height:80%;background:var(--green-400);animation-delay:.45s"></div>
-        </div>
-      </div>
-      <div class="dash-line-area">
-        <div class="dash-chart-label">Revenue Trend</div>
-        <div class="dash-sparkline"></div>
-      </div>
+    <div class="hero-pill fi">Now in Beta</div>
+
+    <h1 class="fi">
+      A Social Network Built for<br>
+      <span class="acc">Freedom</span> — Not Algorithms.
+    </h1>
+
+    <p class="hero-sub fi">
+      FRACT is a next-generation social platform where your voice isn't filtered, manipulated, or hidden.
+    </p>
+
+    <p class="hero-long fi">
+      FRACT is designed to enhance user engagement without endless replies or noise. It features user-controlled feeds, automatic AI-content labeling, and a focus on clear, direct communication. The app removes performance metrics and noise from interactions — providing a more honest and engaging experience. Currently in beta, launching exclusively in the US and Germany, with plans for gradual global rollout.
+    </p>
+
+    <p class="hero-tagline fi">No trending page. No manipulation. Just people.</p>
+
+    <div class="hero-actions fi">
+      <a href="https://fract.online/" target="_blank" class="btn btn-acc btn-xl">Join FRACT →</a>
+      <a href="#why" class="btn btn-ghost btn-lg">Learn More</a>
+    </div>
+
+    <div class="hero-banner fi">
+      <img src="https://cdn.bsky.app/img/banner/plain/did:plc:pqofkt5ntrum3a7ezr7cy6qn/bafkreifffb6u7vah5ishqr66xgpmhpj7pxndu6gtty63vk4gv4ipc5n3mi@jpeg" alt="FRACT Banner">
+    </div>
+
+  </div>
+</section>
+
+<!-- BETA STRIP -->
+<div class="beta-strip">
+  <p><span class="beta-dot"></span><strong>FRACT Beta</strong> is live — launching exclusively in the <strong>US</strong> and <strong>Germany</strong>, with gradual rollout to more regions soon.</p>
+  <a href="https://fract.online/" target="_blank" class="btn btn-acc">Request Access</a>
+</div>
+
+<!-- WHY FRACT -->
+<section class="section why-section" id="why">
+  <div class="fi">
+    <span class="slabel">Why FRACT?</span>
+    <h2 class="stitle">You deserve a feed<br>that works for you.</h2>
+    <p class="ssub">Three principles that set FRACT apart from every platform you've tried before.</p>
+  </div>
+  <div class="why-grid">
+    <div class="why-card fi">
+      <span class="why-icon">🧩</span>
+      <h3>No Algorithms</h3>
+      <p>Your feed is chronological. No black-box ranking, no engagement optimization, no manipulation. What you follow is what you see — in order.</p>
+    </div>
+    <div class="why-card fi">
+      <span class="why-icon">🗣</span>
+      <h3>Freedom First</h3>
+      <p>Speak freely. No shadow banning, no reach suppression, no opaque moderation systems that silently shrink your audience without telling you.</p>
+    </div>
+    <div class="why-card fi">
+      <span class="why-icon">🌍</span>
+      <h3>Independent Infrastructure</h3>
+      <p>Hosted outside centralized control systems. Your data, your context, your voice — not a product to be monetized or handed over on request.</p>
     </div>
   </div>
 </section>
 
-<!-- ── FEATURES ── -->
-<section class="section" style="background:var(--gray-50)">
-  <div class="fade-in">
-    <div class="section-label">Capabilities</div>
-    <h2 class="section-title">Every metric. Every app. One view.</h2>
-    <p class="section-sub">FRACT's modular design means you only pay for the analytics modules you actually use — and they snap together seamlessly.</p>
-  </div>
-  <div class="fract-features">
-    <div class="fract-feat fade-in">
-      <div class="fract-feat-icon">📡</div>
-      <div>
-        <h3>Real-Time Event Streaming</h3>
-        <p>Track every user action, app event, and system signal as they happen — with sub-100ms latency and zero sampling.</p>
-      </div>
-    </div>
-    <div class="fract-feat fade-in">
-      <div class="fract-feat-icon">🧩</div>
-      <div>
-        <h3>Modular Dashboard Builder</h3>
-        <p>Drag, drop, and compose custom dashboards from 40+ chart types. Share them with your team in one click.</p>
-      </div>
-    </div>
-    <div class="fract-feat fade-in">
-      <div class="fract-feat-icon">🤖</div>
-      <div>
-        <h3>AI Anomaly Detection</h3>
-        <p>FRACT learns your data patterns and alerts you the moment something unusual happens — before users notice.</p>
-      </div>
-    </div>
-    <div class="fract-feat fade-in">
-      <div class="fract-feat-icon">🔗</div>
-      <div>
-        <h3>Cross-App Attribution</h3>
-        <p>Understand how a message in MBox leads to a purchase in BoomShop. Full-stack attribution, finally done right.</p>
-      </div>
-    </div>
-    <div class="fract-feat fade-in">
-      <div class="fract-feat-icon">🛡️</div>
-      <div>
-        <h3>Privacy-First Architecture</h3>
-        <p>GDPR, CCPA, and HIPAA ready by default. Anonymize, redact, and control your data pipeline with precision.</p>
-      </div>
-    </div>
-    <div class="fract-feat fade-in">
-      <div class="fract-feat-icon">⚡</div>
-      <div>
-        <h3>SQL + No-Code Query</h3>
-        <p>Power users write raw SQL. Everyone else uses the visual query builder. Both produce the same fast results.</p>
-      </div>
+<!-- VISION PHOTO -->
+<section class="vision-section">
+  <div class="vision-box fi">
+    <img src="https://cdn.bsky.app/img/feed_thumbnail/plain/did:plc:pqofkt5ntrum3a7ezr7cy6qn/bafkreih6pstihx45mqxwo4drnlfjs2runfdzezyt2nphkbn44fmpdctibu@jpeg" alt="FRACT Vision">
+    <div class="vision-caption">
+      <h3>Context-first microblogging.</h3>
+      <p>FRACT is designed for clear, direct, honest communication — without the performance pressure that defines every other social platform today.</p>
     </div>
   </div>
 </section>
 
-<!-- ── INTEGRATIONS ── -->
-<section class="section" style="background:white">
-  <div class="fade-in">
-    <div class="section-label">Integrations</div>
-    <h2 class="section-title">Works with your whole stack.</h2>
-    <p class="section-sub">FRACT connects natively to every Boomstrick app and your favourite external tools.</p>
+<!-- WHAT MAKES FRACT DIFFERENT -->
+<section class="section diff-section">
+  <div class="fi">
+    <span class="slabel">What Makes FRACT Different?</span>
+    <h2 class="stitle">Built against the grain.</h2>
+    <p class="ssub">Every design decision we made was a reaction to what the rest of the industry got wrong — deliberately.</p>
   </div>
-  <div class="int-grid">
-    <div class="int-card fade-in"><div class="int-icon">📦</div><div class="int-name">MBox</div></div>
-    <div class="int-card fade-in"><div class="int-icon">🛒</div><div class="int-name">BoomShop</div></div>
-    <div class="int-card fade-in"><div class="int-icon">🗂️</div><div class="int-name">BoomSpace</div></div>
-    <div class="int-card fade-in"><div class="int-icon">⚡</div><div class="int-name">BoomFlow</div></div>
-    <div class="int-card fade-in"><div class="int-icon">📊</div><div class="int-name">Tableau</div></div>
-    <div class="int-card fade-in"><div class="int-icon">🔵</div><div class="int-name">Salesforce</div></div>
-    <div class="int-card fade-in"><div class="int-icon">📋</div><div class="int-name">Notion</div></div>
-    <div class="int-card fade-in"><div class="int-icon">💜</div><div class="int-name">Slack</div></div>
+
+  <div class="diff-grid">
+    <div class="diff-list fi">
+      <div class="diff-item">
+        <div class="diff-chk">✓</div>
+        <div>
+          <h4>No engagement farming</h4>
+          <p>FRACT removes public like counts, repost metrics, and follower numbers from the interface. You post because you mean it — not to chase a number that means nothing.</p>
+        </div>
+      </div>
+      <div class="diff-item">
+        <div class="diff-chk">✓</div>
+        <div>
+          <h4>No addictive design tricks</h4>
+          <p>No infinite scroll traps. No variable-reward notification pulses. No urgency manufactured by an algorithm. FRACT respects your attention instead of exploiting it.</p>
+        </div>
+      </div>
+      <div class="diff-item">
+        <div class="diff-chk">✓</div>
+        <div>
+          <h4>No data exploitation</h4>
+          <p>We don't build ad profiles, sell behavioral data, or share your activity with third parties — now or ever. Your usage is yours.</p>
+        </div>
+      </div>
+      <div class="diff-item">
+        <div class="diff-chk">✓</div>
+        <div>
+          <h4>Automatic AI-content labeling</h4>
+          <p>Know what's generated and what's human. FRACT surfaces AI-generated content clearly — so you always know what's real and what isn't.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="diff-panel fi">
+      <div class="diff-panel-lbl">
+        <span>Feature</span>
+        <span style="text-align:right">Others</span>
+        <span style="text-align:right;color:var(--acc)">FRACT</span>
+      </div>
+      <div class="diff-row"><span>Chronological feed</span><span class="diff-them">Rarely</span><span class="diff-us">Always ✓</span></div>
+      <div class="diff-row"><span>Shadow banning</span><span class="diff-them">Common</span><span class="diff-us">Never ✓</span></div>
+      <div class="diff-row"><span>AI content labels</span><span class="diff-them">Optional</span><span class="diff-us">Auto ✓</span></div>
+      <div class="diff-row"><span>Data monetization</span><span class="diff-them">Core model</span><span class="diff-us">None ✓</span></div>
+      <div class="diff-row"><span>Public metrics</span><span class="diff-them">Everywhere</span><span class="diff-us">Hidden ✓</span></div>
+      <div class="diff-row"><span>Addictive UX patterns</span><span class="diff-them">By design</span><span class="diff-us">Removed ✓</span></div>
+      <div class="diff-row"><span>Trending page</span><span class="diff-them">Always</span><span class="diff-us">None ✓</span></div>
+    </div>
   </div>
 </section>
 
-<!-- ── CTA ── -->
-<section class="fract-cta">
-  <div class="fade-in" style="max-width:600px;margin:0 auto">
-    <h2>Stop guessing. Start knowing.</h2>
-    <p>Join thousands of teams using FRACT to turn data into decisions. Free plan available — no credit card needed.</p>
-    <a href="#" class="btn btn-primary btn-lg">Get FRACT Free</a>
+<!-- REKLAM FİLMİ -->
+<section class="section film-section">
+  <div class="fi">
+    <span class="slabel">Watch</span>
+    <h2 class="stitle">See FRACT in action.</h2>
+    <p class="ssub">Our product reel is live on Instagram — see the interface, the philosophy, and the experience in motion.</p>
+  </div>
+  <div class="film-box fi">
+    <div class="film-icon">🎬</div>
+    <h3>FRACT — Official Reel</h3>
+    <p>Watch what using a social platform without the noise actually feels like. The reel is live on Instagram now.</p>
+    <a href="https://www.instagram.com/" target="_blank" class="ig-btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      Watch on Instagram
+    </a>
   </div>
 </section>
 
-<script src="shared.js"></script>
+<!-- FINAL CTA -->
+<section class="cta-wrap">
+  <div class="cta-inner fi">
+    <h2>Join the platform<br>that doesn't<br>control you.</h2>
+    <p>FRACT is in beta — designed from the ground up to give you back what social media took. Your feed. Your voice. Your data.</p>
+    <p class="cta-viral">"No trending page. No manipulation. Just people."</p>
+    <a href="https://fract.online/" target="_blank" class="btn btn-acc btn-xl">👉 Join FRACT</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="fract-foot">
+  <a href="index.html" class="ffoot-logo">
+    <img src="https://cdn.bsky.app/img/avatar/plain/did:plc:pqofkt5ntrum3a7ezr7cy6qn/bafkreibaxov3spwxowbeejwdjibow5j64llbvyyoqdgwylt4fykabhynxm@jpeg" alt="FRACT">
+    <span>FRACT</span>
+  </a>
+  <p>A Boomstrick product &nbsp;·&nbsp; © 2026 Boomstrick, Inc.</p>
+  <div class="ffoot-links">
+    <a href="https://fract.online/" target="_blank">fract.online ↗</a>
+    <a href="index.html">← Boomstrick</a>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('on'), i * 85);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.07, rootMargin: '0px 0px -36px 0px' });
+  document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+</script>
 </body>
 </html>
